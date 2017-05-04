@@ -1,4 +1,5 @@
-Installation instructions: shell and spncci projects
+Installation instructions for ND nuclear theory projects
+(shell, spncci, ...)
 
 + 3/7/16 (aem,mac): Created (spncci install instructions).
 + 4/19/16 (mac): Update.
@@ -19,6 +20,7 @@ Installation instructions: shell and spncci projects
   - Add NDCRC config files.
 + 1/18/17 (mac): Add description of environment variables for
   mcscript scripting (with script/mfdn.py).
++ 5/3/17 (mac): Update for ndconfig submodule.
 
 ----------------------------------------------------------------
 
@@ -29,15 +31,14 @@ Installation instructions: shell and spncci projects
 
   % cd ~/projects
 
-  Clone the shell repository and all submodules.  You will be asked for
-  your ND netid password several times.  In the following, replace
-  "netid" with your ND NetID:
-
-  For "shell"...
+  Clone the shell repository and all submodules.  You will be asked
+  for your ND netid password several times.  In the following, replace
+  "netid" with your ND NetID.  For example, for the "shell"
+  repository:
 
   % git clone --recursive ssh://<netid>@crcfe01.crc.nd.edu/afs/crc.nd.edu/group/nuclthy/git/shell.git
 
-  For "spncci"...
+  Or, for the "spncci" repository:
 
   % git clone --recursive ssh://<netid>@crcfe01.crc.nd.edu/afs/crc.nd.edu/group/nuclthy/git/spncci.git
 
@@ -134,25 +135,25 @@ Installation instructions: shell and spncci projects
   correct configuration file.  On a generic system, you can use the
   predefined configuration files in shell/config:
 
-     config/config-gnu.mk -- for GNU gcc 4/5/6
-     config/config-intel.mk -- for Intel
+     config/ndconfig/config-gnu.mk -- for GNU gcc 4/5/6
+     config/ndconfig/config-intel.mk -- for Intel
 
   e.g., for compiling under gcc:
 
-  % ln -s config/config-gnu.mk config.mk
+  % ln -s config/ndconfig/config-gnu.mk config.mk
 
   For HPC systems with more specialized compiler invocations, you can
-  probably "wrap" one of these generic config files as in include
-  file, then overriding a few variable settings.  See
-  config/config-gnu-nersc.mk as an example.
+  "wrap" one of these generic config files as an include file, then
+  override a few variable settings.  See config/ndconfig/config-gnu-nersc.mk as
+  an example.
 
   || @NDCRC: For compiling under gcc:
   || 
-  || % ln -s config/config-gnu-ndcrc.mk config.mk
+  || % ln -s config/ndconfig/config-gnu-ndcrc.mk config.mk
   || 
   || For compiling under intel:
   || 
-  || % ln -s config/config-intel-ndcrc.mk config.mk
+  || % ln -s config/ndconfig/config-intel-ndcrc.mk config.mk
   ||
   || Actually, the generic config gnu or intel config files would work
   || just fine at the NDCRC, but it is good to have the framework in
@@ -161,11 +162,11 @@ Installation instructions: shell and spncci projects
 
   || @NERSC: For compiling under gcc:
   || 
-  || % ln -s config/config-gnu-nersc.mk config.mk
+  || % ln -s config/ndconfig/config-gnu-nersc.mk config.mk
   || 
   || For compiling under intel:
   || 
-  || % ln -s config/config-intel-nersc.mk config.mk
+  || % ln -s config/ndconfig/config-intel-nersc.mk config.mk
   || 
   || It is important to use these "...-nersc.mk" config files, since
   || they configure make to invoke the correct Cray Programming
@@ -176,9 +177,7 @@ Installation instructions: shell and spncci projects
 
   As a shortcut, it is convenient to collect all the above module
   loads and setenv commands into a single file, which can be sourced
-  before attempting a build:
-
-  % source config/module-load-<my_system>.csh
+  before attempting a build.
 
   Important: This needs to be *sourced* into csh (not run as a script)
   so that the environment variable definitions are retained by the
@@ -186,16 +185,23 @@ Installation instructions: shell and spncci projects
 
   || @NDCRC:
   || 
-  || % source config/module-load-ndcrc.csh
+  || % ln -s config/ndconfig/module-load-ndcrc.csh module-load.csh
+  ||   
+  || Then, in each new shell session:
+  ||
+  || % source module-load.csh
 
   || @NERSC:
   || 
-  || % source config/module-load-nersc.csh
+  || % ln -s config/ndconfig/module-load-nersc.csh module-load.csh
+  || Then, in each new shell session:
+  ||
+  || % source module-load.csh
   ||
   || or, for gnu,
   ||
   || % module swap PrgEnv-intel PrgEnv-gnu
-  || % source config/module-load-nersc.csh
+  || % source module-load-nersc.csh
 
   Then, "make all", and a parallel make (with the -j option) is
   strongly recommended for speed:
@@ -218,7 +224,11 @@ Installation instructions: shell and spncci projects
 
   in scripts.
 
-6) Sanity check (for shell project):
+----------------------------------------------------------------
+
+Further setup for shell project:
+
+1) Sanity check:
 
    % cd programs/h2utils
    % ./h2mixer < test/h2mixer_identity-v0.in
@@ -247,7 +257,7 @@ Installation instructions: shell and spncci projects
 
    % ./h2conv 15099 test/tbme-identity-tb-2-v0.dat test/tbme-identity-tb-2-v15099.dat
 
-7) Scripting support
+2) Scripting support
 
 If you are using the shell's project mcscript support, you will want
 to set additional environment variables in your .cshrc file.
