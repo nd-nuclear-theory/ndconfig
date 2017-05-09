@@ -1,3 +1,3 @@
-include config/config-intel.mk
+include config/ndconfig/config-gnu.mk
 
 # ND specific optimization flags can be added here
