@@ -21,6 +21,7 @@ Installation instructions for ND nuclear theory projects
 + 1/18/17 (mac): Add description of environment variables for
   mcscript scripting (with script/mfdn.py).
 + 5/3/17 (mac): Update for ndconfig submodule.
++ 5/27/17 (mac): Add note on "submodule init". Add Spectra library.
 
 ----------------------------------------------------------------
 
@@ -59,6 +60,13 @@ Installation instructions for ND nuclear theory projects
 1') Subsequently updating source
 
   % git pull
+  % git submodule update
+
+Or, if someone has added a new submodule since your last pull, the
+submodule first needs to be initialized:
+
+  % git pull
+  % git submodule init
   % git submodule update
 
 2) Compiler
@@ -128,6 +136,18 @@ Installation instructions for ND nuclear theory projects
   || (10/31/16).  So we use our own copy, in the m2032 project space.
   ||
   || % setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
+
+  Spectra: The Spectra library is a template library, so there are no
+  compiled binaries, just header files.
+
+  || @NDCRC: We have a copy in the nuclthy project space.
+  ||
+  || % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra-0.5.0
+
+  || @NERSC: We have a copy in the m2032 project space.
+  ||
+  || % setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra-0.5.0
+
 
 4) Makefile configuration
 
