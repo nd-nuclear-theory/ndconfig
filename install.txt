@@ -22,6 +22,7 @@ Installation instructions for ND nuclear theory projects
   mcscript scripting (with script/mfdn.py).
 + 5/3/17 (mac): Update for ndconfig submodule.
 + 5/27/17 (mac): Add note on "submodule init". Add Spectra library.
++ 5/29/17 (mac): Change example code directory name.
 
 ----------------------------------------------------------------
 
@@ -30,7 +31,7 @@ Installation instructions for ND nuclear theory projects
   Change to the directory where you want the repository to be installed,
   e.g.,
 
-  % cd ~/projects
+  % cd ~/code
 
   Clone the shell repository and all submodules.  You will be asked
   for your ND netid password several times.  In the following, replace
@@ -285,18 +286,18 @@ to set additional environment variables in your .cshrc file.
   || @NERSC:
   || 
   ||     # shell
-  ||     setenv SHELL_PROJECT_DIR "${HOME}/projects/shell"
+  ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
   ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install"
-  ||     setenv SHELL_MFDN_DIR "${HOME}/projects/mfdn"
+  ||     setenv SHELL_MFDN_DIR "${HOME}/code/mfdn"
   ||     setenv SHELL_DATA_DIR_H2 "/afs/crc.nd.edu/group/nuclthy/data/h2"
   ||     setenv PYTHONPATH ${SHELL_PROJECT_DIR}/script:${PYTHONPATH}
 
   || @NERSC:
   || 
   ||     # shell
-  ||     setenv SHELL_PROJECT_DIR "${HOME}/projects/shell"
+  ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
   ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install/${CRAY_CPU_TARGET}"
-  ||     setenv SHELL_MFDN_DIR "${HOME}/projects/mfdn"
+  ||     setenv SHELL_MFDN_DIR "${HOME}/code/mfdn"
   ||     setenv SHELL_DATA_DIR_H2 "/project/projectdirs/m2032/data/h2"
   ||     setenv PYTHONPATH ${SHELL_PROJECT_DIR}/script:${PYTHONPATH}
 
