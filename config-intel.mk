@@ -54,6 +54,16 @@ CXX := icpc
 # langage standard
 CXXFLAGS += -std=c++11 -qopenmp
 
+# optimization mode
+CXXFLAGS += -O3
+
+# debugging mode
+#
+# Define environment variable DEBUG on make command line to enable.
+ifdef DEBUG
+CXXFLAGS += -g
+endif
+
 ################################################################
 # FORTRAN compiler-specific configuration
 ################################################################

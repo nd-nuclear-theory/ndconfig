@@ -53,10 +53,20 @@ CXX := g++
 # langage standard
 CXXFLAGS += -std=c++11 -fopenmp
 
+# optimization mode
+CXXFLAGS += -O3
+
 # avoid gcc 5 warnings on Eigen library
 CXXFLAGS += -Wno-deprecated-declarations
 # avoid gcc 6 warnings on Eigen library
 ## CXXFLAGS += -Wno-ignored-attributes
+
+# debugging mode
+#
+# Define environment variable DEBUG on make command line to enable.
+ifdef DEBUG
+CXXFLAGS += -g
+endif
 
 ################################################################
 # FORTRAN compiler-specific configuration
