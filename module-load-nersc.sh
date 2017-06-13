@@ -4,3 +4,5 @@ module unload cray-libsci
 module load boost
 module load gsl
 module load python/3.5-anaconda
+module load gcc  # needed again as of 6/13/17 (pjf)
+
