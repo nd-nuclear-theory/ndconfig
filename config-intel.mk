@@ -28,13 +28,13 @@
 #
 #   include config_gcc4.mk
 
-search_prefix := $(EIGEN3_DIR) $(GSL_DIR) $(BOOST_ROOT)
+search_prefix := $(EIGEN3_DIR) $(GSL_DIR) $(BOOST_ROOT) $(MKLROOT)
 
 # directories to directly include in include path or lib path
 #
 #   only for use as a fallback if the traditional search prefix scheme
 #   above fails for a given installation
-search_dirs_include := 
+search_dirs_include := $(EIGEN3_DIR)/include/eigen3
 search_dirs_lib :=
 
 # install prefix (only if you want to install the binaries somewhere)
@@ -56,6 +56,10 @@ CXXFLAGS += -std=c++11 -qopenmp
 
 # optimization mode
 CXXFLAGS += -O3
+
+# MKL linking
+CXXFLAGS += -DEIGEN_USE_MKL_ALL
+LDLIBS += -mkl
 
 # debugging mode
 #
