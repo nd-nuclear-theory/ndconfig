@@ -4,7 +4,7 @@
 
 # search prefix
 #
-#   additional path to search for required include and lib 
+#   additional path to search for required include and lib
 #   directories
 #
 #   Multiple base directories may be listed, delimited by spaces.
@@ -14,10 +14,10 @@
 #     search_prefix := <base1> <base2>
 #
 #   means to search for include files in
-#     
+#
 #     <base1>/include  <base2>/include
 #
-#   and library files n 
+#   and library files n
 #
 #     <base1>/lib  <base2>/lib
 
@@ -34,7 +34,7 @@ search_prefix := $(EIGEN3_DIR) $(GSL_DIR) $(BOOST_ROOT)
 #
 #   only for use as a fallback if the traditional search prefix scheme
 #   above fails for a given installation
-search_dirs_include := 
+search_dirs_include :=
 search_dirs_lib :=
 
 # install prefix (only if you want to install the binaries somewhere)
@@ -49,6 +49,7 @@ install_prefix := install
 
 # C++ compiler
 CXX := g++
+LD := g++
 
 # langage standard
 CXXFLAGS += -std=c++11 -fopenmp
@@ -72,7 +73,7 @@ endif
 # FORTRAN compiler-specific configuration
 ################################################################
 
-# FORTRAN compiler 
+# FORTRAN compiler
 # Example values:
 #   for GCC 3.x: f77
 #   for GCC 4.x: gfortran
@@ -83,7 +84,7 @@ FC := gfortran
 FFLAGS += -fopenmp -frecursive
 
 ################################################################
-# C++/FORTRAN linking 
+# C++/FORTRAN linking
 #    with C++ main()
 ################################################################
 
