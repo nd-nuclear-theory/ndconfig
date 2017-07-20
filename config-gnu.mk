@@ -49,7 +49,7 @@ install_prefix := install
 
 # C++ compiler
 CXX := g++
-LD := g++
+LD := $(CXX)
 
 # langage standard
 CXXFLAGS += -std=c++11 -fopenmp
