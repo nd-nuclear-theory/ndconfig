@@ -41,7 +41,7 @@ search_dirs_lib :=
 #
 # e.g., you would set to /usr/local to do a systemwide installation.
 # This is analagous to the --prefix= option of autoconf installations.
-install_prefix := install
+install_prefix := $(MCSCRIPT_INSTALL_DIR)
 
 ################################################################
 # C++ compiler-specific configuration
