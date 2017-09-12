@@ -5,4 +5,4 @@ FC := ftn
 CXX := CC
 
 # keep binaries separate by target architecture
-install_prefix := install/$(CRAY_CPU_TARGET)
+install_prefix := $(MCSCRIPT_INSTALL_DIR)/$(CRAY_CPU_TARGET)
