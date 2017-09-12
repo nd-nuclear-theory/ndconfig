@@ -1,5 +1,5 @@
 
-if ($NERSC_HOST == "edison") then
+if (($NERSC_HOST == "edison") && ($CRAY_CPU_TARGET == "sandybridge")) then
    # 9/12/17 (mac): fix erroneous default architecture sandybridge by reloading craype-ivybridge
    module load craype-ivybridge
 endif
