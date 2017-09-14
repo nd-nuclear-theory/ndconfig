@@ -6,12 +6,12 @@ endif
 
 # different module names for eigen 3.3.3 on edison and cori as of 9/12/17 (mac)
 if ($NERSC_HOST == "edison") then
-   ## module load eigen
-   ## setenv EIGEN3_DIR ${EIGEN_DIR}
-   setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
+   module load eigen
+   setenv EIGEN3_DIR ${EIGEN_DIR}
 else if ($NERSC_HOST == "cori") then
    module load eigen3
 endif
+## setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
 setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra-0.5.0
 
 module unload cray-libsci
