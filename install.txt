@@ -50,14 +50,14 @@ Installation instructions for ND nuclear theory projects
   || Workaround: If the process hangs, kill with Ctrl-C, clean up with "rm
   || -rf shell", and try again.  If it keeps hanging, split up the
   || process...
-  || 
+  ||
   ||   % git clone ssh://<netid>@crcfe01.crc.nd.edu/afs/crc.nd.edu/group/nuclthy/git/shell.git
   ||   % cd shell
   ||   % submodule init
   ||   % submodule update
-  || 
+  ||
   || and repeat submodule update until all submodules have been successfully cloned.
- 
+
 1') Subsequently updating source
 
   % git pull
@@ -82,12 +82,12 @@ submodule first needs to be initialized:
   || @NERSC: Even if using the intel compiler suite, loading GCC 4.8+
   || (for C++11 compatibility) is still required, since gcc is used
   || internally by icpc:
-  || 
+  ||
   || % module load gcc
   ||
   || If you prefer to switch from the intel compiler to the gnu
   || compiler:
-  || 
+  ||
   || % module swap PrgEnv-intel PrgEnv-gnu
 
 3) Libraries
@@ -98,7 +98,7 @@ submodule first needs to be initialized:
   e.g., in /usr/local).
 
   || @NDCRC: For use with gcc/4.9.2:
-  ||   
+  ||
   || % module load boost/1.58
 
   || @NERSC:
@@ -169,11 +169,11 @@ submodule first needs to be initialized:
   an example.
 
   || @NDCRC: For compiling under gcc:
-  || 
+  ||
   || % ln -s config/ndconfig/config-gnu-ndcrc.mk config.mk
-  || 
+  ||
   || For compiling under intel:
-  || 
+  ||
   || % ln -s config/ndconfig/config-intel-ndcrc.mk config.mk
   ||
   || Actually, the generic config gnu or intel config files would work
@@ -182,13 +182,13 @@ submodule first needs to be initialized:
   || architecture optimizations.
 
   || @NERSC: For compiling under gcc:
-  || 
+  ||
   || % ln -s config/ndconfig/config-gnu-nersc.mk config.mk
-  || 
+  ||
   || For compiling under intel:
-  || 
+  ||
   || % ln -s config/ndconfig/config-intel-nersc.mk config.mk
-  || 
+  ||
   || It is important to use these "...-nersc.mk" config files, since
   || they configure make to invoke the correct Cray Programming
   || Environment compiler wrapper "CC" to generate optimized executables
@@ -205,15 +205,15 @@ submodule first needs to be initialized:
   shell.
 
   || @NDCRC:
-  || 
+  ||
   || % ln -s config/ndconfig/module-load-ndcrc.csh module-load.csh
-  ||   
+  ||
   || Then, in each new shell session:
   ||
   || % source module-load.csh
 
   || @NERSC:
-  || 
+  ||
   || % ln -s config/ndconfig/module-load-nersc.csh module-load.csh
   || Then, in each new shell session:
   ||
@@ -283,8 +283,8 @@ Further setup for shell project:
 If you are using the shell's project mcscript support, you will want
 to set additional environment variables in your .cshrc file.
 
-  || @NERSC:
-  || 
+  || @NDCRC:
+  ||
   ||     # shell
   ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
   ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install"
@@ -293,7 +293,7 @@ to set additional environment variables in your .cshrc file.
   ||     setenv PYTHONPATH ${SHELL_PROJECT_DIR}/script:${PYTHONPATH}
 
   || @NERSC:
-  || 
+  ||
   ||     # shell
   ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
   ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install/${CRAY_CPU_TARGET}"
