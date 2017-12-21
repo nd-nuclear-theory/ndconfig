@@ -277,26 +277,3 @@ Further setup for shell project:
    You can also try out the conversion code h2conv:
 
    % ./h2conv 15099 test/tbme-identity-tb-2-v0.dat test/tbme-identity-tb-2-v15099.dat
-
-2) Scripting support
-
-If you are using the shell's project mcscript support, you will want
-to set additional environment variables in your .cshrc file.
-
-  || @NDCRC:
-  ||
-  ||     # shell
-  ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
-  ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install"
-  ||     setenv SHELL_MFDN_DIR "${HOME}/code/mfdn"
-  ||     setenv SHELL_DATA_DIR_H2 "/afs/crc.nd.edu/group/nuclthy/data/h2"
-  ||     setenv PYTHONPATH ${SHELL_PROJECT_DIR}/script:${PYTHONPATH}
-
-  || @NERSC:
-  ||
-  ||     # shell
-  ||     setenv SHELL_PROJECT_DIR "${HOME}/code/shell"
-  ||     setenv SHELL_INSTALL_DIR "${SHELL_PROJECT_DIR}/install/${CRAY_CPU_TARGET}"
-  ||     setenv SHELL_MFDN_DIR "${HOME}/code/mfdn"
-  ||     setenv SHELL_DATA_DIR_H2 "/project/projectdirs/m2032/data/h2"
-  ||     setenv PYTHONPATH ${SHELL_PROJECT_DIR}/script:${PYTHONPATH}
