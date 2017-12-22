@@ -100,7 +100,7 @@ submodule first needs to be initialized:
     source ${HOME}/code/shell/config/ndconfig/module-load-nersc.csh
 
   .bashrc/.bash_profile:
-    source ${HOME}/code/shell/config/ndconfig/module-load-nersc.csh
+    source ${HOME}/code/shell/config/ndconfig/module-load-nersc.sh
 
   Instead, you may manually install/activate the prerequisites:
 
