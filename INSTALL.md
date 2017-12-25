@@ -23,6 +23,7 @@
 + 5/3/17 (mac): Update for ndconfig submodule.
 + 5/27/17 (mac): Add note on "submodule init". Add Spectra library.
 + 5/29/17 (mac): Change example code directory name.
++ 12/25/17 (pjf): Update to Markdown.
 
 ----------------------------------------------------------------
 
