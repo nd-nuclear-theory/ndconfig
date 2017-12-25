@@ -4,7 +4,7 @@
 
 # search prefix
 #
-#   additional path to search for required include and lib 
+#   additional path to search for required include and lib
 #   directories
 #
 #   Multiple base directories may be listed, delimited by spaces.
@@ -14,10 +14,10 @@
 #     search_prefix := <base1> <base2>
 #
 #   means to search for include files in
-#     
+#
 #     <base1>/include  <base2>/include
 #
-#   and library files n 
+#   and library files n
 #
 #     <base1>/lib  <base2>/lib
 
@@ -41,7 +41,11 @@ search_dirs_lib :=
 #
 # e.g., you would set to /usr/local to do a systemwide installation.
 # This is analagous to the --prefix= option of autoconf installations.
-install_prefix := $(MCSCRIPT_INSTALL_DIR)
+ifdef MCSCRIPT_INSTALL_DIR
+  install_prefix := $(MCSCRIPT_INSTALL_DIR)
+else
+  install_prefix := install
+endif
 
 
 ################################################################
@@ -72,7 +76,7 @@ endif
 # FORTRAN compiler-specific configuration
 ################################################################
 
-# FORTRAN compiler 
+# FORTRAN compiler
 # Example values:
 #   for GCC 3.x: f77
 #   for GCC 4.x: gfortran
@@ -83,7 +87,7 @@ FC := ifort
 FFLAGS += -qopenmp -frecursive
 
 ################################################################
-# C++/FORTRAN linking 
+# C++/FORTRAN linking
 #    with C++ main()
 ################################################################
 
