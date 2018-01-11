@@ -131,7 +131,7 @@
 
   Eigen (version 3): The Eigen library is a template library, so
   there are no compiled binaries, just header files.  The environment
-  variable `EIGEN_DIR` should be set to point to the parent directory
+  variable `EIGEN3_DIR` should be set to point to the parent directory
   of a tree containing these files, specificially, be sure that the
   tree looks like "include/eigen3/Eigen/<headers>".  Here, <headers>
   represents the files {Array,Cholesky,...}.  While the Eigen library
