@@ -4,5 +4,3 @@ include config/ndconfig/config-intel.mk
 CFLAGS += -xHOST
 CXXFLAGS += -xHOST
 FFLAGS += -xHOST
-
-LDLIBS +=  -lgslcblas
