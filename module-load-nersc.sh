@@ -1,3 +1,11 @@
+echo "****************************************************************"
+echo "module-load-nersc.sh is deprecated."
+echo 
+echo "Please load either env-gnu-nersc.sh or env-intel-nersc.sh."
+echo "Or the bash version if you must..."
+echo "Not meaning to bash bash..."
+echo "****************************************************************"
+
 # different module names for eigen 3.3.3 on edison and cori as of 9/12/17 (mac)
 if [[ ${NERSC_HOST} == "edison" ]]; then
    module load eigen
