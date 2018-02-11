@@ -1,7 +1,8 @@
-if (($NERSC_HOST == "edison") && ($CRAY_CPU_TARGET == "sandybridge")) then
-   # 9/12/17 (mac): fix erroneous default architecture sandybridge by reloading craype-ivybridge
-   module load craype-ivybridge
-endif
+# 09/12/2017 (pjf): Fix for edison CRAY_CPU_TARGET by reloading craype-ivybridge
+if [ "$NERSC_HOST" == "edison" ] && [[ -z ${GLOBUS_GRAM_JOB_CONTACT+x} ]]
+then
+  module load craype-ivybridge
+fi
 
 # different module names for eigen 3.3.3 on edison and cori as of 9/12/17 (mac)
 if [[ ${NERSC_HOST} == "edison" ]]; then
