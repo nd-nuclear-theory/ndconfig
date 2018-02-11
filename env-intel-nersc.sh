@@ -1,11 +1,3 @@
-echo "****************************************************************"
-echo "module-load-nersc.csh is deprecated."
-echo 
-echo "Please load either env-gnu-nersc.csh or env-intel-nersc.csh."
-echo "Or the bash version if you must..."
-echo "Not meaning to bash bash..."
-echo "****************************************************************"
-
 if (($NERSC_HOST == "edison") && ($CRAY_CPU_TARGET == "sandybridge")) then
    # 9/12/17 (mac): fix erroneous default architecture sandybridge by reloading craype-ivybridge
    module load craype-ivybridge
