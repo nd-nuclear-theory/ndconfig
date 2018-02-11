@@ -41,8 +41,8 @@ search_dirs_lib :=
 #
 # e.g., you would set to /usr/local to do a systemwide installation.
 # This is analagous to the --prefix= option of autoconf installations.
-ifdef MCSCRIPT_INSTALL_DIR
-  install_prefix := $(MCSCRIPT_INSTALL_DIR)
+ifdef MCSCRIPT_INSTALL_HOME
+  install_prefix := $(MCSCRIPT_INSTALL_HOME)
 else
   install_prefix := install
 endif
