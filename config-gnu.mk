@@ -70,7 +70,7 @@ CXXFLAGS += -Wno-deprecated-declarations
 #
 # Define environment variable DEBUG on make command line to enable.
 ifdef DEBUG
-CXXFLAGS += -g
+CXXFLAGS += -ggdb
 endif
 
 ################################################################
