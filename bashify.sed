@@ -4,7 +4,7 @@
 # University of Notre Dame
 #
 # Usage:
-#   sed bashify.sed script.csh > script.sh
+#   sed -E -f bashify.sed script.csh > script.sh
 #
 # 01/27/17 (pjf): Created.
 
