@@ -1,5 +1,5 @@
 setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.2.10
-setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra-0.5.0
+setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
 
 # ndcrc intel setup as of 180206
 #
