@@ -218,6 +218,8 @@
   so that the environment variable definitions are retained by the
   shell.
 
+  [TODO remove outdated directions on module-load.csh]
+
   > @NDCRC:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % ln -s config/ndconfig/module-load-ndcrc.csh module-load.csh
@@ -246,6 +248,8 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make all -j8
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  [ TODO: need to set proper install directory first]
 
   To copy all executable binaries to the directory install/bin:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

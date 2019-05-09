@@ -1,18 +1,18 @@
 
-if (($NERSC_HOST == "edison") && ($CRAY_CPU_TARGET == "sandybridge")) then
+if [[ ($NERSC_HOST == "edison") && ($CRAY_CPU_TARGET == "sandybridge") ]]; then
    # 9/12/17 (mac): fix erroneous default architecture sandybridge by reloading craype-ivybridge
    module load craype-ivybridge
-endif
+fi
 
 # different module names for eigen 3.3.3 on edison and cori as of 9/12/17 (mac)
-if ($NERSC_HOST == "edison") then
+if [[ $NERSC_HOST == "edison" ]]; then
    module load eigen
-   setenv EIGEN3_DIR ${EIGEN_DIR}
-else if ($NERSC_HOST == "cori") then
+   export EIGEN3_DIR=${EIGEN_DIR}
+elif [[ $NERSC_HOST == "cori" ]]; then
    module load eigen3
-endif
-## setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
-setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra-0.5.0
+fi
+## export EIGEN3_DIR=/global/project/projectdirs/m2032/opt/eigen-3.2.10
+export SPECTRA_DIR=/global/project/projectdirs/m2032/opt/spectra-0.5.0
 
 module -s swap PrgEnv-intel PrgEnv-gnu
 module unload cray-libsci
