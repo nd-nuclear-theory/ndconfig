@@ -12,7 +12,7 @@ else if ($NERSC_HOST == "cori") then
    module load eigen3
 endif
 ## setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
-setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra-0.5.0
+setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra
 
 module -s swap PrgEnv-intel PrgEnv-gnu
 module unload cray-libsci
