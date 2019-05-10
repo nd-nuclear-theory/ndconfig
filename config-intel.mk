@@ -61,10 +61,6 @@ CXXFLAGS += -std=c++14 -fopenmp
 # optimization mode
 CXXFLAGS += -O3
 
-# MKL linking
-CXXFLAGS += -DEIGEN_USE_MKL_ALL
-LDLIBS += -mkl
-
 # debugging mode
 #
 # Define environment variable DEBUG on make command line to enable.
