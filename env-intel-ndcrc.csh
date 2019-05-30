@@ -1,4 +1,4 @@
-setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.2.10
+setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
 setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
 
 # ndcrc intel setup as of 180206
@@ -27,5 +27,5 @@ setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
 module load intel/17.1
 module load ompi/2.1.1-intel-17.1
 module load boost/intel/1.66
-module load  gsl/intel/2.4
+module load gsl/intel/2.4
 module load python/3.6.0

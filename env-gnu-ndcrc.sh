@@ -1,4 +1,4 @@
-export EIGEN3_DIR=/afs/crc.nd.edu/group/nuclthy/opt/eigen-3.2.10
+export EIGEN3_DIR=/afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
 export SPECTRA_DIR=/afs/crc.nd.edu/group/nuclthy/opt/spectra
 
 # ndcrc gnu setup as of 180206
