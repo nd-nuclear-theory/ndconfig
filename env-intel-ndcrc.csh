@@ -28,4 +28,4 @@ module load intel/17.1
 module load ompi/2.1.1-intel-17.1
 module load boost/intel/1.66
 module load gsl/intel/2.4
-module load python/3.6.0
+module load python/3.6.4
