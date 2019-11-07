@@ -100,3 +100,11 @@ fortran_libs := -lifport -lifcore -limf
 # Not yet needed but provided as hook.
 
 fortran_flags :=
+
+################################################################
+# Intel MKL configuration
+################################################################
+
+MKL_CXXFLAGS := -mkl
+MKL_LDFLAGS :=
+MKL_LDLIBS := -liomp5 -lpthread -lm -ldl

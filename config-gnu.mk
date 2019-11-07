@@ -105,3 +105,11 @@ fortran_libs := -lgfortran -lquadmath
 # Not yet needed but provided as hook.
 
 fortran_flags :=
+
+################################################################
+# Intel MKL configuration
+################################################################
+
+MKL_CXXFLAGS := -m64 -I${MKLROOT}/include
+MKL_LDFLAGS := -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed
+MKL_LDLIBS := -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl
