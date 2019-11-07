@@ -62,7 +62,7 @@ CXXFLAGS += -std=c++14 -fopenmp
 CXXFLAGS += -O3
 
 # avoid gcc 5 warnings on Eigen library
-CXXFLAGS += -Wno-deprecated-declarations
+## CXXFLAGS += -Wno-deprecated-declarations
 # avoid gcc 6 warnings on Eigen library
 ## CXXFLAGS += -Wno-ignored-attributes
 
@@ -70,7 +70,7 @@ CXXFLAGS += -Wno-deprecated-declarations
 #
 # Define environment variable DEBUG on make command line to enable.
 ifdef DEBUG
-CXXFLAGS += -ggdb -O0
+CXXFLAGS += -ggdb -O0 -Wall -Wextra
 endif
 
 ################################################################

@@ -65,7 +65,7 @@ CXXFLAGS += -O3
 #
 # Define environment variable DEBUG on make command line to enable.
 ifdef DEBUG
-CXXFLAGS += -g -O0
+CXXFLAGS += -g -O0 -Wall -Wextra
 endif
 
 ################################################################
@@ -80,7 +80,7 @@ endif
 
 FC := ifort
 
-FFLAGS += -qopenmp -frecursive
+FFLAGS += -qopenmp -recursive
 
 ################################################################
 # C++/FORTRAN linking
