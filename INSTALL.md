@@ -1,16 +1,16 @@
 # Installation instructions for ND nuclear theory projects #
 ### (shell, spncci, ...) ##
 
-+ 3/7/16 (aem,mac): Created (spncci install instructions).
-+ 4/19/16 (mac): Update.
-+ 5/3/16 (mac): Update.
-+ 5/17/16 (mac): Overhaul instructions.  Update repository location and branch.
++ 03/07/16 (aem,mac): Created (spncci install instructions).
++ 04/19/16 (mac): Update.
++ 05/03/16 (mac): Update.
++ 05/17/16 (mac): Overhaul instructions.  Update repository location and branch.
 + 10/28/16 (mac): Update git pull notes.
 + 10/28/16 (mac): Branched off shell install instructions.
 + 10/29/16 (mac): Updated with pjf's Intel compilation fix.
 + 10/31/16 (mac): Update for Cori.
-+ 11/4/16 (mac): Update h2stat example.
-+ 11/8/16 (mac): Merge shell and spncci install.
++ 11/04/16 (mac): Update h2stat example.
++ 11/08/16 (mac): Merge shell and spncci install.
   - Overhaul and clearly mark cluster-specific instructions.
   - Merge in notes from install_NDCRC.txt, created 6/29/16 (aem).
 + 11/13/16 (mac): Update shell h2mixer example.
@@ -18,12 +18,13 @@
   - Rename NERSC config files from "...-craype.mk" to
     "...-nersc.mk".
   - Add NDCRC config files.
-+ 1/18/17 (mac): Add description of environment variables for
++ 01/18/17 (mac): Add description of environment variables for
   mcscript scripting (with script/mfdn.py).
-+ 5/3/17 (mac): Update for ndconfig submodule.
-+ 5/27/17 (mac): Add note on "submodule init". Add Spectra library.
-+ 5/29/17 (mac): Change example code directory name.
++ 05/03/17 (mac): Update for ndconfig submodule.
++ 05/27/17 (mac): Add note on "submodule init". Add Spectra library.
++ 05/29/17 (mac): Change example code directory name.
 + 12/25/17 (pjf): Update to Markdown.
++ 04/20/20 (mac): Update Spectra include directory structure.
 
 ----------------------------------------------------------------
 
@@ -151,17 +152,22 @@
   % setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Spectra: The Spectra library is a template library, so there are no
-  compiled binaries, just header files.
+  Spectra: The Spectra library is a template library, so there are no compiled
+  binaries, just header files.  The environment variable `SPECTRA_DIR` should be
+  set to point to the parent directory of a tree containing these files,
+  specificially, be sure that the tree looks like "include/Spectra/<headers>".
+  [That is, starting with Spectra version 0.7.0, the header files are in a
+  subdirectory named Spectra, and include directives should be of the form,
+  e.g., "Spectra/SymmEigenSolver.h".]
 
   > @NDCRC: We have a copy in the nuclthy project space.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra-0.5.0
+  % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   > @NERSC: We have a copy in the m2032 project space.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra-0.5.0
+  % setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 4. Makefile configuration
