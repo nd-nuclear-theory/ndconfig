@@ -15,8 +15,7 @@ export SPECTRA_DIR=/global/project/projectdirs/m2032/opt/spectra
 
 module unload cray-libsci
 module load craype-hugepages2M
-module load boost/1.70.0
+module load boost
 module load gsl
-module load python/3.6-anaconda-4.4
+module load python
 module load gcc  # needed again as of 6/13/17 (pjf)
-module switch intel/19.0.0.117 # 12/21/17 (pjf): intel version 18 has openmp bug
