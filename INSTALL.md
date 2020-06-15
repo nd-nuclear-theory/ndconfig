@@ -25,6 +25,7 @@
 + 05/29/17 (mac): Change example code directory name.
 + 12/25/17 (pjf): Update to Markdown.
 + 04/20/20 (mac): Update Spectra include directory structure.
++ 06/15/20 (mac): Overhaul to explain use of env files.
 
 ----------------------------------------------------------------
 
@@ -44,6 +45,7 @@
   Then change your working directory (cd) to the project directory for
   all the following steps.
 
+  > @NDCRC:
   > Workaround: If the process hangs while cloning from the ND CRC, kill with
   > Ctrl-C, clean up with `rm -rf shell`, and add the following to your `~/.ssh/config`:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,63 +74,84 @@
   % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2. Compiler
+2. Makefile configuration
 
-  If compiling with gcc, version 4.8 or higher is needed, for the
-  full C++11 functionality.
+  You need to create a symbolic link `config.mk` to point to the
+  correct configuration file.
 
-  > @NDCRC: For gnu:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load gcc/4.9.2
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  On a generic system, you can use the predefined configuration files in
+  shell/config:
+    + config/ndconfig/config-gnu.mk -- for GNU gcc 4/5/6
+    + config/ndconfig/config-intel.mk -- for Intel
 
-  > @NERSC: Even if using the intel compiler suite, loading GCC 4.8+
-  > (for C++11 compatibility) is still required, since gcc is used
-  > internally by icpc:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load gcc
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > If you prefer to switch from the intel compiler to the gnu
-  > compiler:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module swap PrgEnv-intel PrgEnv-gnu
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  For instance, for compiling under gcc:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % ln -s config/ndconfig/config-gnu.mk config.mk
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3. Libraries
+  However, for HPC systems, you may be expected to call the compilers with
+  special options or through "wrapper" commands, to ensure that the executables
+  are compiled to run properly on that system.  To do so, you can "wrap" one
+  of these generic config files as an include file, then override a few variable
+  settings as needed.  See, e.g., config/ndconfig/config-gnu-nersc.mk as an example.
 
-  For convenience, we provide scripts to load required modules and set
-  relevant environment variables. These may be sourced by running or adding
-  these lines to your rc files. See Sec. 5 below.
+  > @NDCRC: For compiling under gcc:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % ln -s config/ndconfig/config-gnu-ndcrc.mk config.mk
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  > For compiling under intel:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % ln -s config/ndconfig/config-intel-ndcrc.mk config.mk
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  > Actually, as of when these instructions were written, the generic config gnu
+  > or intel config files would work just fine at the NDCRC.  But it is good to
+  > have the framework in place to easily add flags specific to the NDCRC, e.g.,
+  > architecture optimizations.
+
+  > @NERSC: For compiling under gcc:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  || % ln -s config/ndconfig/config-gnu-nersc.mk config.mk
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  > For compiling under intel:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % ln -s config/ndconfig/config-intel-nersc.mk config.mk
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  > It is important to use these "...-nersc.mk" config files, since they
+  > configure make to invoke the correct Cray Programming Environment compiler
+  > wrapper "CC".  This is needed to generate optimized executables for the
+  > compute nodes and to link to the correct libraries.
+
+3. Setting up compiler and libraries
+
+  You will need to make sure certain libraries are installed, and then that
+  certain environment variables are set (at compile time) so that the makefile
+  can find these libraries.  Here we give general instructions for installing
+  libraries and setting environment variabls "from scratch".  However, if you
+  are working on a cluster, these libraries may already be installed, and you
+  may simply have to do a "module load" to configure your environment variables
+  properly so that you can use the libraries.
+  
+  <em> In particular, if you are working at NDCRC or NERSC, we have already
+  collected all the commands in a single "environment" file.  You do not need to
+  type them from scratch.  See Sec. 3' below.  If you are working at another
+  cluster, it is still useful to look at these "environment" files for examples
+  of the module load commands you may need to use. </em>
+
+  Compilers: If compiling with gcc, version 4.8 or higher is needed, for the
+  full C++11 functionality.  Depending on your cluster, you may need to also
+  load certain modules to control which compiler or compiler version is used.
 
   Boost: Make sure Boost is installed and that the environment
   variable `BOOST_ROOT` points to this installation (unless the
   installation is already in the compiler's default search path,
   e.g., in /usr/local).
 
-  > @NDCRC: For use with gcc/4.9.2:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load boost/1.58
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  > @NERSC:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load boost
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   GSL: Make sure GSL is installed and that the environment variable
   `GSL_DIR` points to this installation (unless the installation is
   already in the compiler's default search path, e.g., in
   /usr/local).
-
-  > @NDCRC:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load boost
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  > @NERSC:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module load gsl
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Eigen (version 3): The Eigen library is a template library, so
   there are no compiled binaries, just header files.  The environment
@@ -140,16 +163,10 @@
   download the latest version and move the header files into a tree
   like this.
 
-  > @NDCRC: We use our own copy, in the nuclthy project space.
+  For example, at the NDCRC, we use our own copy, in our shared nuclthy project
+  directory:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.2.10
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  > @NERSC: Although Eigen is installed as a module on Edison, the
-  > installation tends to lag, and Eigen is missing from Cori
-  > (10/31/16).  So we use our own copy, in the m2032 project space.
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv EIGEN3_DIR /global/project/projectdirs/m2032/opt/eigen-3.2.10
+  % setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Spectra: The Spectra library is a template library, so there are no compiled
@@ -160,119 +177,86 @@
   subdirectory named Spectra, and include directives should be of the form,
   e.g., "Spectra/SymmEigenSolver.h".]
 
-  > @NDCRC: We have a copy in the nuclthy project space.
+  For example, at the NDCRC, we use our own copy, in our shared nuclthy project
+  directory:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  > @NERSC: We have a copy in the m2032 project space.
+3'. Using predefined "environment" files to set up compiler and libraries
+
+  As you can see, there may be a large number of environment variables you have
+  to set or modules you have to load, and these will vary from cluster to
+  cluster.  It is more convenient to save these commands once, in a file, which
+  you can then "source" from your shell command line.  You can also then share
+  these definitions with other users on the same cluster.  In ndconfig, you can
+  find a few examples of such files from our group, for compilers and clusters
+  we are currently using:
+
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra
+  env-gnu-ndcrc.csh
+  env-gnu-ndcrc.sh
+  env-gnu-nersc.csh
+  env-gnu-nersc.sh
+  env-intel-ndcrc.csh
+  env-intel-ndcrc.sh
+  env-intel-nersc.csh
+  env-intel-nersc.sh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-4. Makefile configuration
+  For instance, if you are doing a build with Intel compilers at NERSC, and
+  using tcsh as your shell, the following takes care of all the module loads:
 
-  You need to create a symbolic link `config.mk` to point to the
-  correct configuration file.  On a generic system, you can use the
-  predefined configuration files in shell/config:
-    + config/ndconfig/config-gnu.mk -- for GNU gcc 4/5/6
-    + config/ndconfig/config-intel.mk -- for Intel
-
-  e.g., for compiling under gcc:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-gnu.mk config.mk
+  source config/ndconfig/env-intel-nersc.csh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  For HPC systems with more specialized compiler invocations, you can
-  "wrap" one of these generic config files as an include file, then
-  override a few variable settings.  See config/ndconfig/config-gnu-nersc.mk as
-  an example.
+  A few comments:
+  
+  + The commands for setting environment variables differ between shells.
+  Namely, those in the "csh" family (e.g., tcsh) use "setenv", while those in
+  the sh family (e.g., bash) use "export".  So we maintain two versions of each
+  environment file, with the extension .csh or .sh.  (Actually, when changes are
+  needed, we only update the .csh files, then run a simple script
+  "bashify_all.csh" to generate the .sh files from these.)
 
-  > @NDCRC: For compiling under gcc:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-gnu-ndcrc.mk config.mk
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > For compiling under intel:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-intel-ndcrc.mk config.mk
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > Actually, the generic config gnu or intel config files would work
-  > just fine at the NDCRC, but it is good to have the framework in
-  > place to easily add flags specific to the NDCRC, e.g.,
-  > architecture optimizations.
+  + The environment file needs to be *sourced* into your shell, as above, not
+  run as a script.  If you run it as a script, without the "source" command, it
+  will run in a subshell, the environment variable definitions will be lost.
 
-  > @NERSC: For compiling under gcc:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  || % ln -s config/ndconfig/config-gnu-nersc.mk config.mk
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > For compiling under intel:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-intel-nersc.mk config.mk
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > It is important to use these "...-nersc.mk" config files, since
-  > they configure make to invoke the correct Cray Programming
-  > Environment compiler wrapper "CC" to generate optimized executables
-  > for the compute nodes and to link to the correct libraries.
+  + A more sophisticated approach, rather than sourcing an "environment" file
+  like this, would be to define your own module file.  We may move to this
+  procedure in the future.
 
-5. Build
+4. Building
 
-  As a shortcut, it is convenient to collect all the above module
-  loads and setenv commands into a single file, which can be sourced
-  before attempting a build.
+  As noted in Sec. 3 above, make sure you have loaded the any necessary modules
+  and set any necessarily environment variables to select the compiler and
+  libraries you wish to use.
 
-  Important: This needs to be *sourced* into csh (not run as a script)
-  so that the environment variable definitions are retained by the
-  shell.
-
-  [TODO remove outdated directions on module-load.csh]
-
-  > @NDCRC:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/module-load-ndcrc.csh module-load.csh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > Then, in each new shell session or in ~/.cshrc:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % source module-load.csh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  > @NERSC:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/module-load-nersc.csh module-load.csh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > Then, in each new shell session or in ~/.cshrc:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % source module-load.csh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > or, for gnu,
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  > @NERSC: If you prefer to switch from the intel compiler to the gnu compiler:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % module swap PrgEnv-intel PrgEnv-gnu
-  % source module-load-nersc.csh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Then, "make all", and a parallel make (with the -j option) is
-  strongly recommended for speed:
+  Then, "make all".  A parallel make (with the -j option) is strongly
+  recommended for speed:
+  
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make all -j8
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  [ TODO: need to set proper install directory first]
 
   To copy all executable binaries to the directory install/bin:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make install
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  > @NERSC: We need to keep binaries for different architectures
-  > separate.  The files will be installed to
-  > `install/$(CRAY_CPU_TARGET)/bin`, e.g., `install/haswell/bin` or
-  > `install/mic-knl/bin`.
-
-  You may wish to define the environment variable `SHELL_DIR` to point
-  to the installation directory, so that you can then run, e.g.,
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ${SHELL_DIR}/bin/h2mixer
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  in scripts.
+  > @NERSC: We need to keep binaries for different architectures separate.  The
+  > files are thus installed to `install/$(CRAY_CPU_TARGET)/bin`, e.g.,
+  > `install/haswell/bin` or `install/mic-knl/bin`.  But you do not have to
+  > worry about this.  This is taken care of when we set the install_prefix
+  > variable in the config-gnu-nersc.mk or config-intel-nersc.mk files.
 
 ----------------------------------------------------------------
 
