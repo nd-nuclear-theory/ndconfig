@@ -26,7 +26,7 @@
 + 12/25/17 (pjf): Update to Markdown.
 + 04/20/20 (mac): Update Spectra include directory structure.
 + 06/15/20 (mac): Overhaul to explain use of env files.
-+ 06/18/20 (mac): Revise intro.
++ 06/18/20 (mac): Revise intro and sanity check example.
 
 ----------------------------------------------------------------
 
@@ -265,25 +265,24 @@
   > worry about this.  This is taken care of when we set the install_prefix
   > variable in the config-gnu-nersc.mk or config-intel-nersc.mk files.
 
-----------------------------------------------------------------
+5. Optional sanity check for shell project
 
-Further setup for shell project:
+If you would like to try running a program, try the following:
 
-1. Sanity check:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % cd programs/h2utils
-  % ./h2mixer < test/h2mixer_identity-v0.in
-  % ./h2stat --verify test/tbme-identity-tb-2-v0.dat
-  % ./h2stat --verify test/tbme-identity-tb-2-v0.bin
+  programs/h2utils/h2stat --verify doc/h2/h2v0/example/tbme-identity-tb-2-h2v0.dat
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  You should see something like the following output:
+The output should be something like this:
+
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   h2stat  -- MFDn H2 file statistics
+  version: 0.1.3-0-g7458fbd
 
   Input stream
-    File: test/tbme-identity-tb-2-v0.dat
+    File: doc/h2/h2v0/example/tbme-identity-tb-2-h2v0.dat
     Format: 0 (text)
+    Operator properties: J0 0 g0 0 Tz0 0
     Orbitals: p 6 n 6 (oscillator-like true)
     Truncation: p 2.0000 n 2.0000 pp 2.0000 nn 2.0000 pn 2.0000
     Sectors: pp 7 nn 7 pn 7 => total 21
@@ -293,10 +292,5 @@ Further setup for shell project:
 
   Verification scan
   .....................
-  (Total time: 0)
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  You can also try out the conversion code h2conv:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ./h2conv 15099 test/tbme-identity-tb-2-v0.dat test/tbme-identity-tb-2-v15099.dat
+  (Total time: 0.0077458)
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
