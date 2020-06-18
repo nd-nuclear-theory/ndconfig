@@ -26,39 +26,46 @@
 + 12/25/17 (pjf): Update to Markdown.
 + 04/20/20 (mac): Update Spectra include directory structure.
 + 06/15/20 (mac): Overhaul to explain use of env files.
++ 06/18/20 (mac): Revise intro.
 
 ----------------------------------------------------------------
 
 1. Retrieving source
 
-  Change to the directory where you want the repository to be installed,
+  These are the basic installation instructions for an Notre Dame nuclear theory
+  project (such as shell or spncci) which uses the ndconfig compiler and library
+  configuration files.
+
+  For the following code examples, let us assume you are installing shell.
+  
+  Change to the parent directory where you want the repository to be created,
   e.g.,
   ~~~~~~~~~~~~~~~~
   % cd ~/code
   ~~~~~~~~~~~~~~~~
 
-  Clone the `shell` repository and all submodules.
+  Clone the `shell` repository and all submodules.  If you are cloning from our
+  mirror repository on github:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % git clone --recursive <URL>
+  % git clone --recursive https://github.com/nd-nuclear-theory/shell.git
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Then change your working directory (cd) to the project directory for
-  all the following steps.
+  > Notre Dame local users: You can instead use our development repository at
+  > the ND CRC:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % git clone ssh://<netid>@crcfe01.crc.nd.edu/afs/crc.nd.edu/group/nuclthy/git/code/shell.git
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  > But, if you are cloning from the ND CRC, please first our instructions in
+  > readme-nuclthy.md on setting up your ~/.ssh/config file.  Otherwise, the
+  > recursive clone will hang.
 
-  > @NDCRC:
-  > Workaround: If the process hangs while cloning from the ND CRC, kill with
-  > Ctrl-C, clean up with `rm -rf shell`, and add the following to your `~/.ssh/config`:
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Host *.nd.edu
-      ControlMaster auto
-      ControlPath ~/.ssh/persist/ssh-%r@%h:%p
-      ControlPersist 5m
-      ServerAliveInterval 60
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  > and create the `~/.ssh/persist/` directory with
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  mkdir ~/.ssh/persist
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Then change your working directory to the project directory for all the
+  following steps:
+  ~~~~~~~~~~~~~~~~
+  % cd shell
+  ~~~~~~~~~~~~~~~~
 
   a. Subsequently updating source
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
