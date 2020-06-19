@@ -58,7 +58,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
   > But, if you are cloning from the ND CRC, please first our instructions in
-  > readme-nuclthy.md on setting up your ~/.ssh/config file.  Otherwise, the
+  > readme-nuclthy-git.md on setting up your ~/.ssh/config file.  Otherwise, the
   > recursive clone will hang.
 
   Then change your working directory to the project directory for all the
