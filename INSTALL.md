@@ -254,10 +254,17 @@
   % make all -j8
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  To copy all executable binaries to the directory install/bin:
+  To copy all executable binaries to the subdirectory install/bin:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make install
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Note: If you plan to use use the mcscript scripting (which you probably are!),
+  make sure to follow those installation instructions first.  In particular, as
+  part of that configuration, you will set the environment variable variable
+  `MCSCRIPT_INTALL_HOME`, e.g., as `${HOME}/code/install`.  This will define a
+  different installation directory for `make install` to use.  This is where the
+  scripting will expect to find your executables.
 
   > @NERSC: We need to keep binaries for different architectures separate.  The
   > files are thus installed to `install/$(CRAY_CPU_TARGET)/bin`, e.g.,
