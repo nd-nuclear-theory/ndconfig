@@ -1,3 +1,5 @@
+setenv MODULEPATH /global/common/software/m2032/shared/modulefiles:$MODULEPATH
+
 module load eigen3
 
 setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra
