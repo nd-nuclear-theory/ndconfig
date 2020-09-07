@@ -2,6 +2,7 @@ module load eigen3
 
 setenv SPECTRA_DIR /global/project/projectdirs/m2032/opt/spectra
 
+module -s swap PrgEnv-gnu PrgEnv-intel
 module unload cray-libsci
 module load craype-hugepages2M
 module load boost
