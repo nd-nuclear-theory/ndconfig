@@ -56,7 +56,7 @@ endif
 CXX := icpc
 
 # langage standard
-CXXFLAGS += -std=c++14 -fopenmp
+CXXFLAGS += -std=c++17 -fopenmp
 
 # optimization mode
 CXXFLAGS += -O3
