@@ -9,4 +9,4 @@ FFLAGS += -ipo
 F90FLAGS += -ipo
 
 # keep binaries separate by target architecture
-##install_prefix := $(install_prefix)/$(CRAY_CPU_TARGET)
+install_prefix := $(install_prefix)/$(CRAY_CPU_TARGET)
