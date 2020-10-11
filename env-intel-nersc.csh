@@ -10,6 +10,7 @@ module load craype-hugepages2M
 module load boost
 module load gsl
 module load python
+module load parallel
 
 # Even if using the intel compiler suite, loading GCC is still required, since gcc
 # is used internally by icpc. 
