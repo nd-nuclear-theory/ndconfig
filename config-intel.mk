@@ -81,6 +81,7 @@ endif
 FC := ifort
 
 FFLAGS += -qopenmp -recursive
+FCFLAGS += -qopenmp -recursive
 
 ################################################################
 # C++/FORTRAN linking

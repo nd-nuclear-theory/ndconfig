@@ -86,6 +86,7 @@ endif
 FC := gfortran
 
 FFLAGS += -fopenmp -frecursive
+FCFLAGS += -fopenmp -frecursive -ffree-line-length-none
 
 ################################################################
 # C++/FORTRAN linking
