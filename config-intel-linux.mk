@@ -1,4 +1,4 @@
-include config/ndconfig/config-intel.mk
+include ../ndconfig/config-intel.mk
 
 # enable all extensions available on the local processor
 CFLAGS += -xHOST

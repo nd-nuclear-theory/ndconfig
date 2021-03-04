@@ -1,4 +1,4 @@
-include config/ndconfig/config-intel.mk
+include ../ndconfig/config-intel.mk
 
 # use Cray programming environment compilers
 FC := ftn
