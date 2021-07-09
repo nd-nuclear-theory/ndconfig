@@ -1,4 +1,4 @@
-# Installation instructions for ND nuclear theory projects #
+# Installation instructions for ND nuclear theory projects using `ndconfig`#
 ### (shell, spncci, ...) ##
 
 + 03/07/16 (aem,mac): Created (spncci install instructions).
@@ -27,16 +27,59 @@
 + 04/20/20 (mac): Update Spectra include directory structure.
 + 06/15/20 (mac): Overhaul to explain use of env files.
 + 06/18/20 (mac): Revise intro and sanity check example.
++ 07/09/21 (mac):
+  - Revise to use ndconfig as standalone repository rather than submodule.
+  - Switch to github as primary remote for repositories.
 
 ----------------------------------------------------------------
 
-1. Retrieving source
+These are the basic installation instructions for an Notre Dame nuclear theory
+project (such as shell or spncci) which uses the ndconfig compiler and library
+configuration files.
 
-  These are the basic installation instructions for an Notre Dame nuclear theory
-  project (such as shell or spncci) which uses the ndconfig compiler and library
-  configuration files.
+These instructions have two parts:
 
-  For the following code examples, let us assume you are installing shell.
+  * Setting up `ndconfig` itself (section 0)
+
+  * Installing a project (such as `shell` or `spncci`) which uses `ndconfig`
+    (sections 1ff)
+
+0. Setting up `ndconfig`
+
+  Change to the parent directory where you want the repository to be created,
+  e.g.,
+  ~~~~~~~~~~~~~~~~
+  % cd ~/code
+  ~~~~~~~~~~~~~~~~
+
+  Clone the `ndconfig` repository:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % git clone https://github.com/nd-nuclear-theory/ndconfig.git
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Then you need to set the `NDCONFIG_DIR` environment variable to point to this
+  directory (in order for the `include` statements in the makefiles to work
+  properly).  You will want to put this definition in the shell initialization
+  file for your login shell.  That is, if you are a tcsh user, you will add
+  something like the following to your .cshrc file:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ndconfig
+  setenv NDCONFIG_DIR ${HOME}/code/ndconfig
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Alternatively, if you are a bash user, you will add something like the
+  following to your .bashrc file:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # mcscript
+  export NDCONFIG_DIR=${HOME}/code/ndconfig
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Cloning the project source (`shell`, `spncci`, ...) 
+
+  For the following code examples, let us assume you are installing `shell`.
+  Similar instructions would apply for `spncci`, etc.
   
   Change to the parent directory where you want the repository to be created,
   e.g.,
@@ -44,22 +87,10 @@
   % cd ~/code
   ~~~~~~~~~~~~~~~~
 
-  Clone the `shell` repository and all submodules.  If you are cloning from our
-  mirror repository on github:
+  Clone the `shell` repository and all submodules:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % git clone --recursive https://github.com/nd-nuclear-theory/shell.git
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  > Notre Dame local users: You can instead use our development repository at
-  > the ND CRC:
-  
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % git clone --recursive ssh://<netid>@crcfe01.crc.nd.edu/afs/crc.nd.edu/group/nuclthy/git/code/shell.git
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
-  > But, if you are cloning from the ND CRC, please first our instructions in
-  > readme-nuclthy-git.md on setting up your ~/.ssh/config file.  Otherwise, the
-  > recursive clone will hang.
 
   Then change your working directory to the project directory for all the
   following steps:
@@ -73,42 +104,56 @@
   % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Or, if someone has added a new submodule since your last pull, the
-  submodule first needs to be initialized:
+  Or, if someone has added a new submodule to the project since your last pull,
+  submodule first needs to be initialized, so the safest sequence of commands
+  is:
+  
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % git pull
   % git submodule init
   % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2. Makefile configuration
+2. Makefile configuration (with `ndconfig`)
 
-  You need to create a symbolic link `config.mk` to point to the
-  correct configuration file.
+  You need to create a symbolic link `config.mk` to point to the correct
+  configuration file in `ndconfig`.  The following instructions assume you have
+  already set the `NDCONFIG_DIR` environment variable, or else you can
+  explicitly enter `${HOME}/code/ndconfig` in its place when you invoke `ln`.
 
-  On a generic system, you can use the predefined configuration files in
-  shell/config:
-    + config/ndconfig/config-gnu.mk -- for GNU gcc 4/5/6
-    + config/ndconfig/config-intel.mk -- for Intel
+  On a generic system (e.g., your laptop), you can use the predefined
+  configuration files for using the GNU or Intel compilers:
+  
+    + `config-gnu.mk` -- for GNU gcc 4/5/6
+
+    + `config-intel.mk` -- for Intel
 
   For instance, for compiling under gcc:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-gnu.mk config.mk
+  % ln -s ${NDCONFIG_DIR}/config-gnu.mk config.mk
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  However, for HPC systems, you may be expected to call the compilers with
-  special options or through "wrapper" commands, to ensure that the executables
-  are compiled to run properly on that system.  To do so, you can "wrap" one
-  of these generic config files as an include file, then override a few variable
-  settings as needed.  See, e.g., config/ndconfig/config-gnu-nersc.mk as an example.
+  However, for HPC systems, the compiler configurations are often nonstandard.
+  You may be expected to call the compilers with special options or through
+  "wrapper" commands.  Most of the configuration is the same as for use on a
+  generic system with GNU or Intel compilers, but a few definitions need to be
+  overwritten.  Therefore, the cleanest and most maintainable approach is to
+  indirectly use `config-gnu.mk` or `config-intel.mk`, by through a wrapper
+  file, which uses a makefile `include` statement to include one of these files,
+  then overrides a few definitions.
+
+  In `ndconfig`, you can already find such wrappers for use at the ND CRC and at
+  NERSC.  See, e.g., `config-gnu-nersc.mk` as an example.  If you are running on
+  some other HPC system, these should serve as examples to get you started on
+  writing your own wrappers.
 
   > @NDCRC: For compiling under gcc:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-gnu-ndcrc.mk config.mk
+  % ln -s ${NDCONFIG_DIR}/config-gnu-ndcrc.mk config.mk
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   > For compiling under intel:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-intel-ndcrc.mk config.mk
+  % ln -s ${NDCONFIG_DIR}/config-intel-ndcrc.mk config.mk
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
   > Actually, as of when these instructions were written, the generic config gnu
@@ -118,15 +163,15 @@
 
   > @NERSC: For compiling under gcc:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  || % ln -s config/ndconfig/config-gnu-nersc.mk config.mk
+  || % ln -s ${NDCONFIG_DIR}/config-gnu-nersc.mk config.mk
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   > For compiling under intel:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % ln -s config/ndconfig/config-intel-nersc.mk config.mk
+  % ln -s ${NDCONFIG_DIR}/config-intel-nersc.mk config.mk
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  > It is important to use these "...-nersc.mk" config files, since they
-  > configure make to invoke the correct Cray Programming Environment compiler
+  > It is important to use these "`...-nersc.mk`" config files, since they
+  > ensure that make invokes the correct Cray Programming Environment compiler
   > wrapper "CC".  This is needed to generate optimized executables for the
   > compute nodes and to link to the correct libraries.
 
@@ -196,7 +241,7 @@
   to set or modules you have to load, and these will vary from cluster to
   cluster.  It is more convenient to save these commands once, in a file, which
   you can then "source" from your shell command line.  You can also then share
-  these definitions with other users on the same cluster.  In ndconfig, you can
+  these definitions with other users on the same cluster.  In `ndconfig`, you can
   find a few examples of such files from our group, for compilers and clusters
   we are currently using:
 
@@ -215,12 +260,12 @@
   using tcsh as your shell, the following takes care of all the module loads:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  source config/ndconfig/env-intel-nersc.csh
+  source ${NDCONFIG_DIR}/env-intel-nersc.csh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   A few comments:
   
-  + The commands for setting environment variables differ between shells.
+  + The commands for setting environment variables differ between `shell`s.
   Namely, those in the "csh" family (e.g., tcsh) use "setenv", while those in
   the sh family (e.g., bash) use "export".  So we maintain two versions of each
   environment file, with the extension .csh or .sh.  (Actually, when changes are
