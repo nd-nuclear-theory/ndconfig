@@ -8,7 +8,7 @@ module -s swap intel/19.1.2.254
 
 # Even if using the intel compiler suite, loading GCC is still required, since gcc
 # is used internally by icpc.
-module load gcc/9.3.0  # needed again as of 6/13/17 (pjf)
+module load gcc/10.1.0  # gcc/9.3.0 does not play nicely with intel/19.1.2.254 (pjf 211007)
 
 module unload cray-libsci
 module load craype-hugepages2M
