@@ -11,3 +11,4 @@ module load boost
 module load gsl
 module load python
 module load parallel
+module load cmake
