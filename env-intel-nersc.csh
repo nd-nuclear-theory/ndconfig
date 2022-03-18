@@ -10,6 +10,20 @@ module -s swap intel/19.1.2.254
 # is used internally by icpc.
 module load gcc/8.3.0  # https://bit.ly/2Yw7TFd (pjf 211007)
 
+# More precisely, it appears icpc is only compatible with older libstdc++
+# headers, and it is tricked into finding them by setting an older GCC compiler
+# path... (mac 220317)
+#
+# But loading the older gcc module now breaks other executables' linkage (e.g., emacs)...
+#
+# Instead consider adding compiler/linker flags:
+#
+#   -gxx-name=/opt/gcc/8.3.0/bin/g++
+#   -gcc-name=/opt/gcc/8.3.0/bin/gcc
+#   -Wl,-rpath=/opt/gcc/8.3.0/snos/lib64/
+#
+# https://bitbucket.org/berkeleylab/upcxx/wiki/docs/alt-compilers#markdown-header-intel (mac 03/17/22)
+
 module unload cray-libsci
 module load craype-hugepages2M
 
