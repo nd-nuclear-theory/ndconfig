@@ -7,7 +7,7 @@ module load craype-hugepages2M
 
 module load eigen3
 module load spectra
-module load boost
+## module load boost  # 03/29/22 (mac): not available as module, but available in /usr/include 
 module load gsl
 module load python
 module load parallel
