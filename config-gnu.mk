@@ -34,7 +34,7 @@ search_prefix := $(EIGEN3_DIR) $(GSL_DIR) $(BOOST_ROOT)
 #
 #   only for use as a fallback if the traditional search prefix scheme
 #   above fails for a given installation
-search_dirs_include :=
+search_dirs_include := $(EIGEN3_DIR)/include/eigen3
 search_dirs_lib :=
 
 # install prefix (only if you want to install the binaries somewhere)
