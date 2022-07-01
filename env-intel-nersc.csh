@@ -1,3 +1,7 @@
+if ( "$NERSC_HOST" == "perlmutter" ) then
+  exit 1
+endif
+
 setenv MODULEPATH /global/common/software/m2032/shared/modulefiles:$MODULEPATH
 
 module -s swap PrgEnv-gnu PrgEnv-intel
