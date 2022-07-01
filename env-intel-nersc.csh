@@ -10,9 +10,9 @@ module -s swap PrgEnv-gnu PrgEnv-intel
 # in versions before 19.1.
 module -s swap intel/19.1.2.254
 
-# Even if using the intel compiler suite, loading GCC is still required, since gcc
-# is used internally by icpc.
-module load gcc/8.3.0  # https://bit.ly/2Yw7TFd (pjf 211007)
+# # Even if using the intel compiler suite, loading GCC is still required, since gcc
+# # is used internally by icpc.
+# module load gcc/8.3.0  # https://bit.ly/2Yw7TFd (pjf 211007)
 
 # More precisely, it appears icpc is only compatible with older libstdc++
 # headers, and it is tricked into finding them by setting an older GCC compiler
@@ -33,7 +33,7 @@ module load craype-hugepages2M
 
 module load eigen3
 module load spectra
-## module load boost  # 03/29/22 (mac): not available as module, but available in /usr/include 
+## module load boost  # 03/29/22 (mac): not available as module, but available in /usr/include
 module load gsl
 module load python
 module load parallel
