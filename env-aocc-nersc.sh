@@ -5,7 +5,7 @@ if [[ "$NERSC_HOST" == "perlmutter" ]]; then
 fi
 
 if [[ "$NERSC_HOST" == "cori" ]]; then
-  exit 1
+  return 1
 fi
 
 module load spectra

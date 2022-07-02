@@ -1,5 +1,5 @@
 if [[ "$NERSC_HOST" == "perlmutter" ]]; then
-  exit 1
+  return 1
 fi
 
 export MODULEPATH=/global/common/software/m2032/shared/modulefiles:$MODULEPATH

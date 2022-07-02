@@ -37,3 +37,6 @@ s/\$\?([^ ]+)/-n ${\1+x}/g
 
 # limit -> ulimit
 s/limit coredumpsize/ulimit -c/g
+
+# exit -> return
+s/exit/return/g
