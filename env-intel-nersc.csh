@@ -33,7 +33,7 @@ module load craype-hugepages2M
 
 module load eigen3
 module load spectra
-module load boost
+module load boost-mpi
 module load gsl
 module load python
 module load parallel

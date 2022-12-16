@@ -9,7 +9,7 @@ if ( "$NERSC_HOST" == "cori" ) then
 endif
 
 module load spectra
-module load boost
+module load boost-mpi
 module load gsl
 module load python
 module load parallel
