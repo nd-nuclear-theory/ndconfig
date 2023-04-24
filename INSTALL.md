@@ -180,7 +180,7 @@ These instructions have two parts:
   You will need to make sure certain libraries are installed, and then that
   certain environment variables are set (at compile time) so that the makefile
   can find these libraries.  Here we give general instructions for installing
-  libraries and setting environment variabls "from scratch".  However, if you
+  libraries and setting environment variables "from scratch".  However, if you
   are working on a cluster, these libraries may already be installed, and you
   may simply have to do a "module load" to configure your environment variables
   properly so that you can use the libraries.
@@ -191,19 +191,25 @@ These instructions have two parts:
   cluster, it is still useful to look at these "environment" files for examples
   of the module load commands you may need to use. </em>
 
-  Compilers: If compiling with gcc, version 4.8 or higher is needed, for the
-  full C++11 functionality.  Depending on your cluster, you may need to also
-  load certain modules to control which compiler or compiler version is used.
+  Boost: Make sure Boost is installed and that the environment variable
+  `BOOST_ROOT` points to the root directory for this installation (unless the
+  installation is already in the compiler's default search path, e.g., in
+  /usr/local).  E.g., under Ubuntu, for a global installation:
 
-  Boost: Make sure Boost is installed and that the environment
-  variable `BOOST_ROOT` points to this installation (unless the
-  installation is already in the compiler's default search path,
-  e.g., in /usr/local).
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % sudo apt install libboost-all-dev
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   GSL: Make sure GSL is installed and that the environment variable
   `GSL_DIR` points to this installation (unless the installation is
   already in the compiler's default search path, e.g., in
   /usr/local).
+
+  E.g., under Ubuntu, for a global installation:
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % sudo apt install libgsl-dev
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Eigen (version 3): The Eigen library is a template library, so
   there are no compiled binaries, just header files.  The environment
