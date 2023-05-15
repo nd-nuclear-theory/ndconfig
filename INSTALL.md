@@ -30,6 +30,7 @@
 + 07/09/21 (mac):
   - Revise to use ndconfig as standalone repository rather than submodule.
   - Switch to github as primary remote for repositories.
++ 05/15/23 (mac): Update notes on installation directory.
 
 ----------------------------------------------------------------
 
@@ -311,25 +312,30 @@ These instructions have two parts:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Note: If you plan to use use the mcscript scripting (which you probably are!),
-  make sure to follow those installation instructions first.  In particular, as
-  part of that configuration, you will set the environment variable variable
-  `MCSCRIPT_INTALL_HOME`, e.g., as `${HOME}/code/install`.  This will define a
-  different installation directory for `make install` to use.  This is where the
-  scripting will expect to find your executables.
+  make sure to set the environment variable `MCSCRIPT_INSTALL_HOME` before
+  installing, to ensure that your executables will get installed to the intended
+  location.  (See the `INSTALL.md` file for `mcscript` for further discussion.)
+  A typical configuration for our group is to set `MCSCRIPT_INSTALL_HOME` to
+  `${HOME}/code/install`.  This will define the installation directory for `make
+  install` to use now, and it is where the `mcscript` scripting will expect to
+  find your executables later.
 
   > @NERSC: We need to keep binaries for different architectures separate.  The
-  > files are thus installed to `install/$(CRAY_CPU_TARGET)/bin`, e.g.,
-  > `install/haswell/bin` or `install/mic-knl/bin`.  But you do not have to
-  > worry about this.  This is taken care of when we set the install_prefix
-  > variable in the config-gnu-nersc.mk or config-intel-nersc.mk files.
+  > files are thus installed to `install/${CRAY_CPU_TARGET}/<code>/bin`, e.g.,
+  > `install/x86-milan/shell/bin`.  But you do not have to worry about this.
+  > This is taken care of when we set the install_prefix variable in the
+  > `config-gnu-nersc.mk` or `config-intel-nersc.mk files`.
 
-5. Optional sanity check for shell project
+5. Optional sanity check for `shell` project
 
 If you would like to try running a program, try the following:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   programs/h2utils/h2stat --verify doc/h2/h2v0/example/tbme-identity-tb-2-h2v0.dat
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the above, you may need to substitute the correct installation path for
+`h2stat`, e.g., `${MCSCRIPT_INSTALL_HOME}/${CRAY_CPU_TARGET}/shell/bin/h2stat`.
 
 The output should be something like this:
 
