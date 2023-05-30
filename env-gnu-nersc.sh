@@ -30,12 +30,13 @@ if [[ "$NERSC_HOST" == "perlmutter" ]]; then
   # gsl
   spack load gsl%gcc
   export GSL_DIR=`pkg-config --variable=prefix gsl`
+  export LD_LIBRARY_PATH=${GSL_DIR}/lib:${LD_LIBRARY_PATH}
   # NERSC module installation
   #
   # 05/09/23 (mac): there is now a global gsl/2.7 on perlmutter,
   # TODO (mac): test if resultant am package works with python
   ## module load gsl
-
+  
 elif [[ "$NERSC_HOST" == "cori" ]]; then
   export MODULEPATH=/global/common/software/m2032/shared/modulefiles:$MODULEPATH
 
