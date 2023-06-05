@@ -99,6 +99,12 @@ These instructions have two parts:
   % cd shell
   ~~~~~~~~~~~~~~~~
 
+  If you want the bleeding-edge, potentially broken version, check out the
+  `develop` branch:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % git checkout -t origin/develop
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   a. Subsequently updating source
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % git pull
@@ -334,7 +340,7 @@ If you would like to try running a program, try the following:
   <install_directory>/h2stat --verify doc/h2/h2v0/example/tbme-identity-tb-2-h2v0.dat
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the above, you may need to substitute the correct installation path for
+In the above, you will need to substitute the correct installation path for
 `h2stat`, e.g., `${MCSCRIPT_INSTALL_HOME}/${CRAY_CPU_TARGET}/shell/bin/h2stat`.
 
 The output should be something like this:
