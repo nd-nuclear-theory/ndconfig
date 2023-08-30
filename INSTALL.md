@@ -207,6 +207,12 @@ These instructions have two parts:
   % sudo apt install libboost-all-dev
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  Or, under macOS, with Homebrew:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % brew install boost
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   GSL: Make sure GSL is installed and that the environment variable
   `GSL_DIR` points to this installation (unless the installation is
   already in the compiler's default search path, e.g., in
@@ -224,7 +230,7 @@ These instructions have two parts:
   of a tree containing these files, specificially, be sure that the
   tree looks like "include/eigen3/Eigen/<headers>".  Here, <headers>
   represents the files {Array,Cholesky,...}.  While the Eigen library
-  is available as a module on systems, it is often preferable to
+  is available as a module on some clusters, it is often preferable to
   download the latest version and move the header files into a tree
   like this.
 
@@ -232,6 +238,12 @@ These instructions have two parts:
   directory:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Or, under macOS, with Homebrew:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % brew install eigen
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Spectra: The Spectra library is a template library, so there are no compiled
