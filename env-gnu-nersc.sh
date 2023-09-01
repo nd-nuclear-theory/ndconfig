@@ -50,7 +50,7 @@ if [[ "$NERSC_HOST" == "perlmutter" ]]; then
   # template libraries
   # contains an eigen3/include/Eigen tree
   export EIGEN3_DIR="/global/common/software/m2032/shared/common/eigen3/3.4.0"
-  export SPECTA_DIR="/global/common/software/m2032/shared/common/spectra/0.9.0"
+  export SPECTRA_DIR="/global/common/software/m2032/shared/common/spectra/0.9.0"
     
 fi
 

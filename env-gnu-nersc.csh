@@ -50,7 +50,7 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   # template libraries
   # contains an eigen3/include/Eigen tree
   setenv EIGEN3_DIR "/global/common/software/m2032/shared/common/eigen3/3.4.0"
-  setenv SPECTA_DIR "/global/common/software/m2032/shared/common/spectra/0.9.0"
+  setenv SPECTRA_DIR "/global/common/software/m2032/shared/common/spectra/0.9.0"
     
 endif
 
