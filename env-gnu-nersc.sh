@@ -4,10 +4,9 @@ if [[ "$NERSC_HOST" == "perlmutter-DISABLED" ]]; then
   module load PrgEnv-gnu
 
   # activate spack
-  # 05/09/23 (mac): stay with spack/0.19.0 due to apparent bug in spack/0.19.2  
   # 05/09/23 (mac): gymnastics of loading cpu and then reloading gpu is to work
   #   around spack module conflict with cudatoolkit module (Steve Leak 02/27/23)
-  module load cpu spack/0.19.0; module load gpu
+  module load cpu spack/0.19.2; module load gpu
   spack env activate --prompt --dir=/global/common/software/m2032/shared/spack-perlmutter
 
   # boost
