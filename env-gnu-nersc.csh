@@ -1,4 +1,6 @@
-if ( "$NERSC_HOST" == "perlmutter" ) then
+if ( "$NERSC_HOST" == "perlmutter-DISABLED" ) then
+  # 08/31/23 (mac): this is broken
+
   module load PrgEnv-gnu
 
   # activate spack
@@ -36,20 +38,20 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   # 05/09/23 (mac): there is now a global gsl/2.7 on perlmutter,
   # TODO (mac): test if resultant am package works with python
   ## module load gsl
-  
-else if ( "$NERSC_HOST" == "cori" ) then
-  setenv MODULEPATH /global/common/software/m2032/shared/modulefiles:$MODULEPATH
+endif
 
-  module -s swap PrgEnv-intel PrgEnv-gnu
-  module switch gcc/9.3.0
-  module unload cray-libsci
-  module load craype-hugepages2M
-  module load eigen3
-
-  # m2032 custom module files -- not supported on perlmutter
-  module load spectra
-  module load boost-mpi
+if ( "$NERSC_HOST" == "perlmutter" ) then
+  # 06/21/23 (mac): module set from py working with rt 
+  module load e4s
   module load gsl
+  spack env activate gcc
+  spack load gsl boost/zoben4a
+
+  # template libraries
+  # contains an eigen3/include/Eigen tree
+  setenv EIGEN3_DIR "/global/common/software/m2032/shared/common/eigen3/3.4.0"
+  setenv SPECTA_DIR "/global/common/software/m2032/shared/common/spectra/0.9.0"
+    
 endif
 
 module load python
