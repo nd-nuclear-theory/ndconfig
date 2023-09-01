@@ -1,4 +1,4 @@
-include $(NDCONFIG_DIR)/config-intel.mk
+include $(NDCONFIG_DIR)/config-gnu.mk
 
 # use OpenMPI compiler wrappers
 FC := mpifort
