@@ -281,13 +281,19 @@ These instructions have two parts:
   env-intel-nersc.sh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  For instance, if you are doing a build with Intel compilers at NERSC, and
-  using tcsh as your shell, the following takes care of all the module loads:
+  For instance, if you are doing a build with gnu compilers at NERSC, and if
+  `tcsh` is your login shell, the following takes care of all the module loads:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  source ${NDCONFIG_DIR}/env-intel-nersc.csh
+  source ${NDCONFIG_DIR}/env-gnu-nersc.csh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  Or, if `bash` is your login shell:
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  source ${NDCONFIG_DIR}/env-gnu-nersc.sh
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
   A few comments:
   
   + The commands for setting environment variables differ between `shell`s.
@@ -307,18 +313,12 @@ These instructions have two parts:
 
 4. Building
 
-  As noted in Sec. 3 above, make sure you have loaded the any necessary modules
-  and set any necessarily environment variables to select the compiler and
-  libraries you wish to use.
+  As noted in Secs. 3 and 3' above, make sure you have loaded the any necessary
+  modules and set any necessarily environment variables to select the compiler
+  and libraries you wish to use.
 
-  > @NERSC: If you prefer to switch from the intel compiler to the gnu compiler:
-  
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % module swap PrgEnv-intel PrgEnv-gnu
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  Then, "make all".  A parallel make (with the -j option) is strongly
-  recommended for speed:
+  Then, "make all".  Unless you are very patient, a parallel make (with the -j
+  option) is strongly recommended for speed:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make all -j8
@@ -343,6 +343,12 @@ These instructions have two parts:
   > `install/x86-milan/shell/bin`.  But you do not have to worry about this.
   > This is taken care of when we set the install_prefix variable in the
   > `config-gnu-nersc.mk` or `config-intel-nersc.mk files`.
+
+  > @NERSC: For large parallel runs, the executable file should be on a
+  > filesystem which can be accessed from compute nodes with high bandwidth.  It
+  > should not be in your home directory.  We use the `/global/common/software'
+  > directory.  Thus, `MCSCRIPT_INSTALL_HOME` is set to
+  > `/global/common/software/<repsitory>/<user>/install`.
 
 5. Optional sanity check for `shell` project
 
