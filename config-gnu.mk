@@ -34,6 +34,11 @@ search_prefix := $(EIGEN3_DIR) $(GSL_DIR) $(BOOST_ROOT)
 #
 #   only for use as a fallback if the traditional search prefix scheme
 #   above fails for a given installation
+
+# Provide default EIGEN3_DIR value to ensure that /usr/local/include/eigen3 is
+# searched if EIGEN3_DIR not otherwise specified (e.g., for homebrew
+# installation macOS).
+EIGEN3_DIR ?= /usr/local  
 search_dirs_include := $(EIGEN3_DIR)/include/eigen3
 search_dirs_lib :=
 
