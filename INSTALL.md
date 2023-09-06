@@ -31,6 +31,7 @@
   - Revise to use ndconfig as standalone repository rather than submodule.
   - Switch to github as primary remote for repositories.
 + 05/15/23 (mac): Update notes on installation directory.
++ 09/05/23 (mac): Remove eigen3 from include path for Eigen installation.
 
 ----------------------------------------------------------------
 
@@ -213,10 +214,9 @@ These instructions have two parts:
   % brew install boost
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  GSL: Make sure GSL is installed and that the environment variable
-  `GSL_DIR` points to this installation (unless the installation is
-  already in the compiler's default search path, e.g., in
-  /usr/local).
+  GSL: Make sure GSL is installed and that the environment variable `GSL_DIR`
+  points to the install prefix for this installation (unless the installation is
+  already in the compiler's default search path, e.g., in /usr/local).
 
   E.g., under Ubuntu, for a global installation:
 
@@ -224,23 +224,40 @@ These instructions have two parts:
   % sudo apt install libgsl-dev
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Eigen (version 3): The Eigen library is a template library, so
-  there are no compiled binaries, just header files.  The environment
-  variable `EIGEN3_DIR` should be set to point to the parent directory
-  of a tree containing these files, specificially, be sure that the
-  tree looks like "include/eigen3/Eigen/<headers>".  Here, <headers>
-  represents the files {Array,Cholesky,...}.  While the Eigen library
-  is available as a module on some clusters, it is often preferable to
-  download the latest version and move the header files into a tree
-  like this.
+  Eigen (version 3): The Eigen library is a template library, so there are no
+  compiled binaries, just header files.  The environment variable `EIGEN3_DIR`
+  should be set to the install prefix, so that the header files are found as
 
-  For example, at the NDCRC, we use our own copy, in our shared nuclthy project
-  directory:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ${EIGEN3_DIR}/include/Eigen/<header>
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Here, `<header>` represents the files `Array`, `Cholesky`, etc.  Includes
+  should be of the form, e.g., `#include <Eigen/Array>`.
+
+  Note that, because of the way the source files are arranged in the
+  distribution tar file, many installations have an extra layer to the
+  subdirectory structure, with the headers buried in a subdirectory named
+  `eigen3`.  The `config.mk` files provided with this `ndconfig` repository
+  provide a workaround, so that the header files will also be found if their
+  paths are of the nonstandard form
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ${EIGEN3_DIR}/include/eigen3/Eigen/<header>    # DEPRECATED
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Although the Eigen library is available as a module on some clusters, you may
+  need to download the latest version from `https://eigen.tuxfamily.org`.  See
+  the `INSTALL` file that comes with Eigen for guidance.
+
+  For example, at the NDCRC, we use our own copy of Eigen, in our nuclthy
+  project directory:
+  
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Or, under macOS, with Homebrew:
+  Or, under macOS, with Homebrew, Eigen is installed under `/usr/local` as:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % brew install eigen
@@ -248,14 +265,19 @@ These instructions have two parts:
 
   Spectra: The Spectra library is a template library, so there are no compiled
   binaries, just header files.  The environment variable `SPECTRA_DIR` should be
-  set to point to the parent directory of a tree containing these files,
-  specificially, be sure that the tree looks like "include/Spectra/<headers>".
+  set to the install prefix for these files, so that the headers are found as
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ${SPECTRA_DIR}/include/Spectra/<header>
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   [That is, starting with Spectra version 0.7.0, the header files are in a
-  subdirectory named Spectra, and include directives should be of the form,
-  e.g., "Spectra/SymmEigenSolver.h".]
+  subdirectory named `Spectra`, and include directives should be of the form,
+  e.g.,  `#include <Spectra/SymmEigenSolver.h>`.]
 
   For example, at the NDCRC, we use our own copy, in our shared nuclthy project
   directory:
+  
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -324,19 +346,20 @@ These instructions have two parts:
   % make all -j8
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  To copy all executable binaries to the subdirectory install/bin:
+  To copy all executable binaries to installation directory:
+  
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % make install
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Note: If you plan to use use the mcscript scripting (which you probably are!),
-  make sure to set the environment variable `MCSCRIPT_INSTALL_HOME` before
-  installing, to ensure that your executables will get installed to the intended
-  location.  (See the `INSTALL.md` file for `mcscript` for further discussion.)
-  A typical configuration for our group is to set `MCSCRIPT_INSTALL_HOME` to
-  `${HOME}/code/install`.  This will define the installation directory for `make
-  install` to use now, and it is where the `mcscript` scripting will expect to
-  find your executables later.
+  The default installation directory is just the subdirectory `install\bin`,
+  which is not very useful.  Rather, if you plan to use use the `mcscript`
+  scripting (which you probably are!), make sure to set the environment variable
+  `MCSCRIPT_INSTALL_HOME` before installing (see the `INSTALL.md` file for
+  `mcscript`).  This will define the installation directory for `make install`
+  to use now, and this directory is where the `mcscript` scripting will expect
+  to find your executables later.  E.g., a typical configuration for our group
+  is to set `MCSCRIPT_INSTALL_HOME` to `${HOME}/code/install`.
 
   > @NERSC: We need to keep binaries for different architectures separate.  The
   > files are thus installed to `install/${CRAY_CPU_TARGET}/<code>/bin`, e.g.,
@@ -349,6 +372,13 @@ These instructions have two parts:
   > should not be in your home directory.  We use the `/global/common/software'
   > directory.  Thus, `MCSCRIPT_INSTALL_HOME` is set to
   > `/global/common/software/<repsitory>/<user>/install`.
+
+  Note that `ndmakefile` supports other "targets", beyond just `all` and `install`.  To see all
+  options provided by `ndmakefile`:
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % make help
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 5. Optional sanity check for `shell` project
 
