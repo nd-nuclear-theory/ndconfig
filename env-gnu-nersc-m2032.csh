@@ -10,6 +10,7 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
 
   # boost
   spack load boost%gcc
+  setenv LD_LIBRARY_PATH ${BOOST_ROOT}/lib:${LD_LIBRARY_PATH}
 
   # eigen
   spack load eigen
