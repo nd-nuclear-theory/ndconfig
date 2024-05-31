@@ -247,8 +247,9 @@ These instructions have two parts:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Although the Eigen library is available as a module on some clusters, you may
-  need to download the latest version from `https://eigen.tuxfamily.org`.  See
-  the `INSTALL` file that comes with Eigen for guidance.
+  need to download the latest version from `https://eigen.tuxfamily.org` (or
+  clone it from `https://gitlab.com/libeigen/eigen.git`).  See the `INSTALL`
+  file that comes with Eigen for guidance.
 
   For example, at the NDCRC, we use our own copy of Eigen, in our nuclthy
   project directory:

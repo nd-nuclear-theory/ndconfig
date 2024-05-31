@@ -5,7 +5,7 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   # activate spack (using m2032 homegrown stack environment)
   # 05/09/23 (mac): gymnastics of loading cpu and then reloading gpu is to work
   #   around spack module conflict with cudatoolkit module (Steve Leak 02/27/23)
-  module load cpu spack/0.19.2; module load gpu
+  module load cpu spack; module load gpu
   spack env activate --prompt --dir=/global/common/software/m2032/shared/spack-perlmutter
 
   # boost
@@ -13,11 +13,16 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   setenv LD_LIBRARY_PATH ${BOOST_ROOT}/lib:${LD_LIBRARY_PATH}
 
   # eigen
-  spack load eigen
-  setenv EIGEN3_DIR `pkg-config --variable=prefix eigen3`
+  #
+  # 05/31/24 (mac): Module "eigen/3.40" on perlmutter provides directory
+  # structure $EIGEN_DIR/include/eigen3/Eigen/.
+  module load eigen
+  # m2032 spack installation
+  ## spack load eigen
+  ## setenv EIGEN3_DIR `pkg-config --variable=prefix eigen3`
   # non-spack legacy installation
-  ##setenv EIGEN3_DIR /global/common/software/m2032/shared/common/eigen3/3.4.0
-  ##setenv CMAKE_PREFIX_PATH ${EIGEN3_DIR}:${CMAKE_PREFIX_PATH}
+  ## setenv EIGEN3_DIR /global/common/software/m2032/shared/common/eigen3/3.4.0
+  ## setenv CMAKE_PREFIX_PATH ${EIGEN3_DIR}:${CMAKE_PREFIX_PATH}
 
   # spectra
   spack load spectra%gcc
@@ -40,5 +45,6 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
 endif
 
 module load python
-module load parallel  # for use in mcscript config-slurm-nersc.py
+# parallel: for use in mcscript config-slurm-nersc.py
+module load parallel
 module load cmake

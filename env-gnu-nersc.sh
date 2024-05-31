@@ -1,17 +1,49 @@
-if [[ "$NERSC_HOST" == "perlmutter" ]]; then
-  # 06/21/23 (mac): module set from py working with rt 
-  module load e4s
-  module load gsl
-  spack env activate gcc
-  spack load gsl boost/zoben4a
+# This "generic" NERSC environment file is meant for non-m2032 users.  It should
+# avoid referencing files requiring m2032 group file read permissions (e.g., the
+# m2032 spack environment or /global/common/software/m2032) where possible, as
+# these will not be available to all users.
 
-  # template libraries
-  # contains an eigen3/include/Eigen tree
-  export EIGEN3_DIR="/global/common/software/m2032/shared/common/eigen3/3.4.0"
+module load PrgEnv-gnu
+
+if [[ "$NERSC_HOST" == "perlmutter" ]]; then
+  # 06/21/23 (mac): Based on initial module set shared by py (working with rt):
+  #   module load e4s
+  #   module load gsl
+  #   spack env activate gcc
+  #   spack load gsl boost/zoben4a
+
+  module load e4s
+  spack env activate gcc
+
+  # gsl
+  spack load gsl
+
+  # boost
+  #
+  # 05/21/24 (mac): Original recommended boost/zoben4a no longer available.
+  #   Generic "spack load boost" gives "Error: boost matches multiple packages."
+  #   and lists several matching packages.  Pick one and try...
+  #
+  #   nxqk3hn boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  #   bofy2gb boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  #   jn7ias4 boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  #   7v65wrl boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  #   2duyuvm boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  #   2yqnluo boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
+  spack load boost/nxqk3hn
+
+  # eigen
+  #
+  # 05/31/24 (mac): Module "eigen/3.40" on perlmutter provides directory
+  # structure $EIGEN_DIR/include/eigen3/Eigen/.
+  module load eigen
+
+  # spectra
   export SPECTRA_DIR="/global/common/software/m2032/shared/common/spectra/0.9.0"
     
 fi
 
 module load python
-module load parallel  # for use in mcscript config-slurm-nersc.py
+# parallel: for use in mcscript config-slurm-nersc.py
+module load parallel
 module load cmake
