@@ -226,29 +226,36 @@ These instructions have two parts:
 
   Eigen (version 3): The Eigen library is a template library, so there are no
   compiled binaries, just header files.  The environment variable `EIGEN3_DIR`
-  should be set to the install prefix, so that the header files are found as
+  should be set to the install prefix, so that the header files are found under
+  `${EIGEN3_DIR}\include`.
+  
+  Confusingly, the directory structure beneath `${EIGEN3_DIR}\include` varies
+  between different installations.  Includes statements in the code should be of
+  the form, e.g., `#include <Eigen/Array>`.  Here, `<header>` represents the
+  files `Array`, `Cholesky`, etc.  Thus, the natural directory structure would
+  be such that the header files are found as
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ${EIGEN3_DIR}/include/Eigen/<header>
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Here, `<header>` represents the files `Array`, `Cholesky`, etc.  Includes
-  should be of the form, e.g., `#include <Eigen/Array>`.
-
-  Note that, because of the way the source files are arranged in the
-  distribution tar file, many installations have an extra layer to the
-  subdirectory structure, with the headers buried in a subdirectory named
-  `eigen3`.  The `config.mk` files provided with this `ndconfig` repository
-  provide a workaround, so that the header files will also be found if their
-  paths are of the nonstandard form
-
+  However, many installations have an extra layer to the subdirectory
+  structure, with the headers buried in a subdirectory named `eigen3`.  That is, 
+  the header files are found as
+   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ${EIGEN3_DIR}/include/eigen3/Eigen/<header>    # DEPRECATED
+  ${EIGEN3_DIR}/include/eigen3/Eigen/<header>
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Although the Eigen library is available as a module on some clusters, you may
-  need to download the latest version from `https://eigen.tuxfamily.org` (or
-  clone it from `https://gitlab.com/libeigen/eigen.git`).  See the `INSTALL`
+  (This is the way the source files are arranged in the distribution tar file.
+  It is also, by default, the directory structure created by `cmake install`.)
+  The `config.mk` files provided with this `ndconfig` repository provide a
+  workaround, to ensure that the header files will also be found if their paths
+  are of either of these two forms.
+
+  The Eigen library is available as a module on some clusters.  Alternatively,
+  you may need to download the latest version from `https://eigen.tuxfamily.org`
+  (or clone it from `https://gitlab.com/libeigen/eigen.git`).  See the `INSTALL`
   file that comes with Eigen for guidance.
 
   For example, at the NDCRC, we use our own copy of Eigen, in our nuclthy
