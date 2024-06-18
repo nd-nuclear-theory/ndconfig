@@ -1,6 +1,6 @@
 # ndconfig
 
-Cluster-specific makefile configuration files
+Cluster-specific module environment definitions and makefile configuration files
 
 Coding protocol for maintaining the env files: The csh environment definition
 files (env*.csh) files are the "master" files.  Any edits you make should be to
