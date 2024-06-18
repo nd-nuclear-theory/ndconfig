@@ -32,20 +32,20 @@
   - Switch to github as primary remote for repositories.
 + 05/15/23 (mac): Update notes on installation directory.
 + 09/05/23 (mac): Remove eigen3 from include path for Eigen installation.
-+ 06/18/24 (mac): Write preamble introducing repository.
++ 06/18/24 (mac): Write preamble introducing repository (with keod).
 
 ----------------------------------------------------------------
 
 The `ndconfig` repository serves two related purposes:
 
-(1) When running on an HPC system, it is necessary to load module files.  These
-set environment variables, which select which compiler and library versions
-should be used when you compile and run programs.  These same module files
-typically need to be loaded both at *compile* time and again later at *run*
-time, every time the program is to be run.  (Or, if you are submitting a batch
-job to run the program, the modules should be loaded before you submit the batch
-job, and, if all goes well, this ensures that the correct environment will then
-be in place when the batch job actually runs.)
+(1) Environment definition files.  When running on an HPC system, it is
+necessary to load module files.  These set environment variables, which select
+which compiler and library versions should be used when you compile and run
+programs.  These same module files typically need to be loaded both at *compile*
+time and again later at *run* time, every time the program is to be run.  (Or,
+if you are submitting a batch job to run the program, the modules should be
+loaded before you submit the batch job, and, if all goes well, this ensures that
+the correct environment will then be in place when the batch job actually runs.)
 
 It is nontrivial to keep track of what module commands need to be loaded, for
 any given compiler suite, on any given HPC system, at any given time.  So that
@@ -61,27 +61,20 @@ and you are using the `bash` shell, after logging in, you would invoke
   % source env-gnu-nersc.sh
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Or, once you have set the `NDCONFIG_DIR` environment variable, you can load
-accomplish the same thing from any current working directory by invoking
-
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  source ${NDCONFIG_DIR}/env-gnu-nersc.sh
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 You may also wish to refer to Section 3' below for some more technical details
 regarding the environment files, especially if you will be modifying them.
 
-(2) Several Notre Dame nuclear theory code projects (such as `shell` and
-`spncci`) were developed which used the same generic makefile (`ndmakefile`).
-However, certain `make` variables (such as those defining which libraries to
-use, or which optimization flags to set) need to be customized, depending on
-what compiler suite is being used and what compute system the code will be run
-on.  We extract these compiler-specific and system-specific variable definitions
-into a configuration file named `config.mk`.  It would not make much sense to
-keep multiple copies of these configuration files bundled with each of the
-specific projects (such as `shell` or `spncci`).  Rather, we keep a single
-"up-to-date" version of these configuration files here in the `ndconfig`
-repository.
+(2) Makefile configuration files.  Several Notre Dame nuclear theory code
+projects (such as `shell` and `spncci`) were developed which used the same
+generic makefile (`ndmakefile`).  However, certain `make` variables (such as
+those defining which libraries to use, or which optimization flags to set) need
+to be customized, depending on what compiler suite is being used and what
+compute system the code will be run on.  We extract these compiler-specific and
+system-specific variable definitions into a configuration file named
+`config.mk`.  It would not make much sense to keep multiple copies of these
+configuration files bundled with each of the specific projects (such as `shell`
+or `spncci`).  Rather, we keep a single "up-to-date" version of these
+configuration files here in the `ndconfig` repository.
 
 Thus, for instance, `config-gnu.mk` contains variable definitions appropriate
 for use with the GNU compiler suite on a generic Linus system (`CXX=g++`, etc.),
@@ -125,6 +118,15 @@ See Sections 2ff below for instructions on building and installing a project
   # mcscript
   export NDCONFIG_DIR=${HOME}/code/ndconfig
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Note: Now that you have set the `NDCONFIG_DIR` environment variable, you can
+  load an environment file from any current working directory by using this
+  variable to specify the full path name.  For example:
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  source ${NDCONFIG_DIR}/env-gnu-nersc.sh
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 # 1. Cloning the project source (`shell`, `spncci`, ...) 
 
