@@ -1,5 +1,5 @@
-# Installation instructions for ND nuclear theory projects using `ndconfig`#
-### (shell, spncci, ...) ##
+# Installation instructions for `ndconfig` #
+### and for ND nuclear theory projects using `ndconfig` (shell, spncci, ...) ###
 
 + 03/07/16 (aem,mac): Created (spncci install instructions).
 + 04/19/16 (mac): Update.
@@ -32,21 +32,69 @@
   - Switch to github as primary remote for repositories.
 + 05/15/23 (mac): Update notes on installation directory.
 + 09/05/23 (mac): Remove eigen3 from include path for Eigen installation.
++ 06/18/24 (mac): Write preamble introducing repository.
 
 ----------------------------------------------------------------
 
-These are the basic installation instructions for an Notre Dame nuclear theory
-project (such as shell or spncci) which uses the ndconfig compiler and library
-configuration files.
+The `ndconfig` repository serves two related purposes:
 
-These instructions have two parts:
+(1) When running on an HPC system, it is necessary to load module files.  These
+set environment variables, which select which compiler and library versions
+should be used when you compile and run programs.  These same module files
+typically need to be loaded both at *compile* time and again later at *run*
+time, every time the program is to be run.  (Or, if you are submitting a batch
+job to run the program, the modules should be loaded before you submit the batch
+job, and, if all goes well, this ensures that the correct environment will then
+be in place when the batch job actually runs.)
 
-  * Setting up `ndconfig` itself (section 0)
+It is nontrivial to keep track of what module commands need to be loaded, for
+any given compiler suite, on any given HPC system, at any given time.  So that
+they do not need to be remembered and entered one-by-one, we have collected them
+in this repository, and saved them in shell scripts, which we call "environment"
+files.  Files suitable for use with both the `tcsh` and `bash` shells are
+maintained in parallel.
 
-  * Installing a project (such as `shell` or `spncci`) which uses `ndconfig`
-    (sections 1ff)
+Thus, e.g., if you are running at NERSC, and you want to use the gnu compilers,
+and you are using the `bash` shell, after logging in, you would invoke
 
-0. Setting up `ndconfig`
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % source env-gnu-nersc.sh
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Or, once you have set the `NDCONFIG_DIR` environment variable, you can load
+accomplish the same thing from any current working directory by invoking
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  source ${NDCONFIG_DIR}/env-gnu-nersc.sh
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may also wish to refer to Section 3' below for some more technical details
+regarding the environment files, especially if you will be modifying them.
+
+(2) Several Notre Dame nuclear theory code projects (such as `shell` and
+`spncci`) were developed which used the same generic makefile (`ndmakefile`).
+However, certain `make` variables (such as those defining which libraries to
+use, or which optimization flags to set) need to be customized, depending on
+what compiler suite is being used and what compute system the code will be run
+on.  We extract these compiler-specific and system-specific variable definitions
+into a configuration file named `config.mk`.  It would not make much sense to
+keep multiple copies of these configuration files bundled with each of the
+specific projects (such as `shell` or `spncci`).  Rather, we keep a single
+"up-to-date" version of these configuration files here in the `ndconfig`
+repository.
+
+Thus, for instance, `config-gnu.mk` contains variable definitions appropriate
+for use with the GNU compiler suite on a generic Linus system (`CXX=g++`, etc.),
+`config-intel.mk` contains variable definitions appropriate for use with the
+Intel compiler suite on a generic Linus system (`CXX=icpc`, etc.).  Then, for
+instance, `config-gnu-nersc.mk` and `config-intel-nersc.mk`, are wrapper files,
+which override a handful variable definitions to the values needed specifically
+when compiling at NERSC (`CXX=CC`, etc.).
+
+See Sections 2ff below for instructions on building and installing a project
+(such as `shell` or `spncci`) which uses `ndconfig`.
+
+# 0. Retrieving and installing `ndconfig`
 
   Change to the parent directory where you want the repository to be created,
   e.g.,
@@ -78,7 +126,7 @@ These instructions have two parts:
   export NDCONFIG_DIR=${HOME}/code/ndconfig
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Cloning the project source (`shell`, `spncci`, ...) 
+# 1. Cloning the project source (`shell`, `spncci`, ...) 
 
   For the following code examples, let us assume you are installing `shell`.
   Similar instructions would apply for `spncci`, etc.
@@ -122,7 +170,7 @@ These instructions have two parts:
   % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2. Makefile configuration (with `ndconfig`)
+# 2. Makefile configuration (with `ndconfig`)
 
   You need to create a symbolic link `config.mk` to point to the correct
   configuration file in `ndconfig`.  The following instructions assume you have
@@ -290,7 +338,7 @@ These instructions have two parts:
   % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3'. Using predefined "environment" files to set up compiler and libraries
+# 3'. Using predefined "environment" files to set up compiler and libraries
 
   As you can see, there may be a large number of environment variables you have
   to set or modules you have to load, and these will vary from cluster to
@@ -326,12 +374,14 @@ These instructions have two parts:
   
   A few comments:
   
-  + The commands for setting environment variables differ between `shell`s.
-  Namely, those in the "csh" family (e.g., tcsh) use "setenv", while those in
-  the sh family (e.g., bash) use "export".  So we maintain two versions of each
-  environment file, with the extension .csh or .sh.  (Actually, when changes are
-  needed, we only update the .csh files, then run a simple script
-  "bashify_all.csh" to generate the .sh files from these.)
+  + The commands for setting environment variables differ between shells.
+  Namely, those in the `csh` family (e.g., `tcsh`) use `setenv`, while those in
+  the `sh` family (e.g., `bash`) use `export`.  So we maintain two versions of each
+  environment file, with the extension `.csh` or `.sh`.
+  
+  + However, the `csh` version is the master version.  When changes are needed,
+  we only update the `.csh` files, then run a simple translation script
+  `bashify_all.csh` to generate the `.sh` files from these.
 
   + The environment file needs to be *sourced* into your shell, as above, not
   run as a script.  If you run it as a script, without the "source" command, it
@@ -341,7 +391,7 @@ These instructions have two parts:
   like this, would be to define your own module file.  We may move to this
   procedure in the future.
 
-4. Building
+# 4. Building
 
   As noted in Secs. 3 and 3' above, make sure you have loaded the any necessary
   modules and set any necessarily environment variables to select the compiler
@@ -388,7 +438,7 @@ These instructions have two parts:
   % make help
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-5. Optional sanity check for `shell` project
+# 5. Optional sanity check for `shell` project
 
 If you would like to try running a program, try the following:
 
