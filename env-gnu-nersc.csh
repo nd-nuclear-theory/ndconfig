@@ -43,6 +43,7 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
     
 endif
 
+# need python for scripting
 module load python
 # parallel: for use in mcscript config-slurm-nersc.py
 module load parallel

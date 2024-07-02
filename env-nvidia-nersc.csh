@@ -7,8 +7,10 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
     module load craype-accel-nvidia80
     module load libfabric
     # module unload darshan
-
-    # need python for scripting
-    module load python
     
 endif
+
+# need python for scripting
+module load python
+# parallel: for use in mcscript config-slurm-nersc.py
+module load parallel
