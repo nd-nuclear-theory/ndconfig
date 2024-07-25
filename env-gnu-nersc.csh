@@ -30,7 +30,10 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   #   7v65wrl boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
   #   2duyuvm boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
   #   2yqnluo boost@1.83.0%gcc@12.3.0 arch=linux-sles15-zen3
-  spack load boost/nxqk3hn
+  #
+  # 07/25/24 (mac): Although nxqk3hn works just fine for building shell, it
+  # causes `cmake -B` to choke when building basis, etc.  Use bofy2gb instead.
+  spack load boost/bofy2gb
 
   # eigen
   #
