@@ -12,11 +12,12 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   #   spack env activate gcc
   #   spack load gsl boost/zoben4a
 
-  module load e4s
+  module load spack
   spack env activate gcc
 
   # gsl
-  spack load gsl
+  # 01/22/25 (zz): gsl@2.7.1 also works
+  spack load gsl@2.8
 
   # boost
   #
@@ -33,13 +34,20 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   #
   # 07/25/24 (mac): Although nxqk3hn works just fine for building shell, it
   # causes `cmake -B` to choke when building basis, etc.  Use bofy2gb instead.
-  spack load boost/bofy2gb
+  #
+  # 01/22/25 (zz): All of the following are tested for building shell
+  # spack load boost/gy2bwpu: works
+  # spack load boost/etpwsek: works
+  # spack load boost/4znawlj: works
+  # spack load boost/r3flolp: works
+  # spack load boost/t4shrus: works
+  spack load boost/t4shrus
 
   # eigen
   #
   # 05/31/24 (mac): Module "eigen/3.40" on perlmutter provides directory
   # structure $EIGEN_DIR/include/eigen3/Eigen/.
-  module load eigen
+  setenv EIGEN3_DIR "/usr"
 
   # spectra
   setenv SPECTRA_DIR "/global/common/software/m2032/shared/common/spectra/0.9.0"
