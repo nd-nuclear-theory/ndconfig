@@ -33,6 +33,7 @@
 + 05/15/23 (mac): Update notes on installation directory.
 + 09/05/23 (mac): Remove eigen3 from include path for Eigen installation.
 + 06/18/24 (mac): Write preamble introducing repository (with keod).
++ 01/22/25 (mac): Expand discussion of Eigen directory structure.
 
 ----------------------------------------------------------------
 
@@ -249,10 +250,13 @@ See Sections 2ff below for instructions on building and installing a project
   cluster, it is still useful to look at these "environment" files for examples
   of the module load commands you may need to use. </em>
 
-  Boost: Make sure Boost is installed and that the environment variable
-  `BOOST_ROOT` points to the root directory for this installation (unless the
-  installation is already in the compiler's default search path, e.g., in
-  /usr/local).  E.g., under Ubuntu, for a global installation:
+  ## Boost
+  
+  Make sure Boost is installed and that the environment variable `BOOST_ROOT`
+  points to the root directory for this installation (unless the installation is
+  already in the compiler's default search path, e.g., in /usr/local).
+  
+  For example, under Ubuntu, for a global installation:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % sudo apt install libboost-all-dev
@@ -264,66 +268,96 @@ See Sections 2ff below for instructions on building and installing a project
   % brew install boost
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  GSL: Make sure GSL is installed and that the environment variable `GSL_DIR`
-  points to the install prefix for this installation (unless the installation is
+  ## GSL
+  
+  Make sure GSL is installed and that the environment variable `GSL_DIR` points
+  to the install prefix for this installation (unless the installation is
   already in the compiler's default search path, e.g., in /usr/local).
 
-  E.g., under Ubuntu, for a global installation:
+  For example, under Ubuntu, for a global installation:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % sudo apt install libgsl-dev
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Eigen (version 3): The Eigen library is a template library, so there are no
-  compiled binaries, just header files.  The environment variable `EIGEN3_DIR`
-  should be set to the install prefix, so that the header files are found under
-  `${EIGEN3_DIR}\include`.
+  ## Eigen
   
-  Confusingly, the directory structure beneath `${EIGEN3_DIR}\include` varies
-  between different installations.  Includes statements in the code should be of
-  the form, e.g., `#include <Eigen/Array>`.  Here, `<header>` represents the
-  files `Array`, `Cholesky`, etc.  Thus, the natural directory structure would
-  be such that the header files are found as
+  The Eigen (version 3) library is a template library, so there are no compiled
+  binaries, just header files.  The environment variable `EIGEN3_DIR` should be
+  set to the install prefix, so that the header files are found under
+  `${EIGEN3_DIR}/include`.  Based on the examples in the Eigen documentation,
+  include statements in the code should be of the form, e.g., `#include
+  <Eigen/Array>`.  However, some care must be taken to make such include
+  statements actually work, since, confusingly, the directory structure beneath
+  `${EIGEN3_DIR}/include` varies between different installations.
+  
+  According to the conventions for the arrangement of files under an install
+  prefix, we would expect this header file to appear *directly* under
+  `${EIGEN3_DIR}/include`.  That is, we would expect the directory structure be
+  such that the header files are found as
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ${EIGEN3_DIR}/include/Eigen/<header>
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  However, many installations have an extra layer to the subdirectory
-  structure, with the headers buried in a subdirectory named `eigen3`.  That is, 
+  where `<header>` represents the files `Array`, `Cholesky`, etc.
+
+  However, many (most?) installations add an extra layer to the subdirectory
+  structure, with the headers buried in a subdirectory named `eigen3`.  That is,
   the header files are found as
    
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ${EIGEN3_DIR}/include/eigen3/Eigen/<header>
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  (This is the way the source files are arranged in the distribution tar file.
-  It is also, by default, the directory structure created by `cmake install`.)
+  (This is the way the source files are arranged in the Eigen distribution tar
+  file.  It is also, by default, the directory structure for Eigen created by
+  `cmake install`.)
+  
   The `config.mk` files provided with this `ndconfig` repository provide a
-  workaround, to ensure that the header files will also be found if their paths
-  are of either of these two forms.
-
+  workaround, to ensure that the header files will be found by the compiler
+  regardless of which of these structures is used in the installation.  Namely,
+  the makefile generates compiler flags corresponding to both possibilities, in
+  the expectation that one of them will work:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  -I ${EIGEN3_DIR}/include
+  -I ${EIGEN3_DIR}/include/eigen3
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
   The Eigen library is available as a module on some clusters.  Alternatively,
   you may need to download the latest version from `https://eigen.tuxfamily.org`
   (or clone it from `https://gitlab.com/libeigen/eigen.git`).  See the `INSTALL`
   file that comes with Eigen for guidance.
 
-  For example, at the NDCRC, we use our own copy of Eigen, in our nuclthy
-  project directory:
+  For example, at NERSC (on perlmutter as of January 2025), Eigen is installed
+  globally under `/usr`.  However, the filenames are of the form
+  `/usr/include/eigen3/Eigen/<header>`.  Even though `/usr/include` is in the
+  system-wide default compiler search path, `/usr/include/eigen3` is not, and we
+  must activate the makefile's workaround by setting:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv EIGEN3_DIR /afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
+  % setenv EIGEN3_DIR /usr
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  
+  The fallback at NERSC was to use our own copy of Eigen, in the m2032 common
+  software directory:
+  
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % setenv EIGEN3_DIR /global/common/software/m2032/shared/common/eigen3/3.4.0
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
   Or, under macOS, with Homebrew, Eigen is installed under `/usr/local` as:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % brew install eigen
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Spectra: The Spectra library is a template library, so there are no compiled
-  binaries, just header files.  The environment variable `SPECTRA_DIR` should be
-  set to the install prefix for these files, so that the headers are found as
+  ## Spectra
+  
+  The Spectra library is a template library, so there are no compiled binaries,
+  just header files.  The environment variable `SPECTRA_DIR` should be set to
+  the install prefix for these files, so that the headers are found as
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ${SPECTRA_DIR}/include/Spectra/<header>
@@ -333,11 +367,11 @@ See Sections 2ff below for instructions on building and installing a project
   subdirectory named `Spectra`, and include directives should be of the form,
   e.g.,  `#include <Spectra/SymmEigenSolver.h>`.]
 
-  For example, at the NDCRC, we use our own copy, in our shared nuclthy project
-  directory:
+  For example, at NERSC, we use our own copy of Spectra, in the m2032 common
+  software directory:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % setenv SPECTRA_DIR /afs/crc.nd.edu/group/nuclthy/opt/spectra
+  % setenv SPECTRA_DIR /global/common/software/m2032/shared/common/spectra/0.9.0
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # 3'. Using predefined "environment" files to set up compiler and libraries
