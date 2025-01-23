@@ -173,7 +173,7 @@ See Sections 2ff below for instructions on building and installing a project
   % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# 2. Makefile configuration (with `ndconfig`)
+# 2. Required libraries and makefile configuration (with `ndconfig`)
 
   You need to create a symbolic link `config.mk` to point to the correct
   configuration file in `ndconfig`.  The following instructions assume you have
@@ -234,7 +234,7 @@ See Sections 2ff below for instructions on building and installing a project
   > wrapper "CC".  This is needed to generate optimized executables for the
   > compute nodes and to link to the correct libraries.
 
-3. Setting up compiler and libraries
+# 3. Setting up compiler and libraries
 
   You will need to make sure certain libraries are installed, and then that
   certain environment variables are set (at compile time) so that the makefile
