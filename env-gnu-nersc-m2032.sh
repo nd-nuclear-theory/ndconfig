@@ -46,5 +46,5 @@ fi
 
 module load python
 # parallel: for use in mcscript config-slurm-nersc.py
-module load parallel
+## module load parallel  # 02/26/25 (mac): now available at NERSC without a module
 module load cmake

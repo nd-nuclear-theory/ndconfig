@@ -12,5 +12,5 @@ module load spectra
 module load boost-mpi
 module load gsl
 module load python
-module load parallel
+## module load parallel  # 02/26/25 (mac): now available at NERSC without a module
 module load cmake
