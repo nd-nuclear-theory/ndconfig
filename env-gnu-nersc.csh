@@ -19,6 +19,12 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   # 01/22/25 (zz): gsl@2.7.1 also works
   spack load gsl@2.8
 
+  # 06/17/25 (mac/zz): In mfdn-transitions, since cmake strips "non-toolchain
+  # portion of runtime path" on install, the RPATH in the installed binary is
+  # missing the GSL library location.  The workaround is to explicitly add this
+  # library location to LD_LIBRARY_PATH at run time.
+  setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${GSL_ROOT_DIR}/lib
+  
   # boost
   #
   # 05/21/24 (mac): Original recommended boost/zoben4a no longer available.
