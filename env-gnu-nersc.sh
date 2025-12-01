@@ -13,10 +13,12 @@ if [[ "$NERSC_HOST" == "perlmutter" ]]; then
   #   spack load gsl boost/zoben4a
 
   module load spack
-  spack env activate gcc
+  # 12/01/25 (zz/mac): gcc environment is no longer available (NERSC INC0245375)
+  # spack env activate gcc
 
   # gsl
   # 01/22/25 (zz): gsl@2.7.1 also works
+  # 12/01/25 (zz/mac): Need to install gsl first with "spack install gsl"
   spack load gsl@2.8
 
   # 06/17/25 (mac/zz): In mfdn-transitions, since cmake strips "non-toolchain
@@ -47,7 +49,9 @@ if [[ "$NERSC_HOST" == "perlmutter" ]]; then
   # spack load boost/4znawlj: works
   # spack load boost/r3flolp: works
   # spack load boost/t4shrus: works
-  spack load boost/t4shrus
+  #
+  # 12/01/25 (zz/mac): boost/t4shrus is no longer available. Need to install boost first with "spack install boost"
+  spack load boost
 
   # eigen
   #
