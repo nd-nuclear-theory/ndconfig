@@ -1,3 +1,9 @@
+# NERSC environment file for use with m2032 custom spack environment
+#
+# Note: This environment file is meant for use with the m2032 custom spack
+# environment, which is not currently being maintained.  Use env-gnu-nersc
+# instead.
+
 if ( "$NERSC_HOST" == "perlmutter" ) then
 
   module load PrgEnv-gnu

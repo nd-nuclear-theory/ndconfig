@@ -1,7 +1,24 @@
-# This "generic" NERSC environment file is meant for non-m2032 users.  It should
-# avoid referencing files requiring m2032 group file read permissions (e.g., the
-# m2032 spack environment or /global/common/software/m2032) where possible, as
-# these will not be available to all users.
+# NERSC environment file for use with gnu compilers (cpu target)
+#
+# Setup:
+#
+#   - You will first need to install certain spack modules:
+#
+#     spack install gsl 
+#     spack install boost
+#
+#   - For codes (e.g., SpNCCI) using the spectra template library, you will need
+#     to obtain access to /global/common/software/m2032/spectra or provide an
+#     alternate definition of SPECTRA_DIR.
+#
+# Note: This NERSC environment file is meant to be usable by non-m2032 users, to
+# the extent possible.  It should avoid referencing files requiring m2032 group
+# file read permissions (e.g., installed in /global/common/software/m2032) where
+# possible, as these will not be available to all users.
+#
+# 12/01/25 (zz/mac): Move away from using NERSC-provided predefined spack
+#   environments, which are no longer available, as NERSC moves away from
+#   spack-based e4s deployment (NERSC INC0245375).
 
 module load PrgEnv-gnu
 
@@ -13,12 +30,13 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   #   spack load gsl boost/zoben4a
 
   module load spack
-  # 12/01/25 (zz/mac): gcc environment is no longer available (NERSC INC0245375)
-  # spack env activate gcc
+  
+  # 12/01/25 (zz/mac): Environment gcc no longer available, 
+  ## spack env activate gcc
 
   # gsl
   # 01/22/25 (zz): gsl@2.7.1 also works
-  # 12/01/25 (zz/mac): Need to install gsl first with "spack install gsl"
+  # 12/01/25 (zz/mac): Need to install spack gsl module first
   spack load gsl@2.8
 
   # 06/17/25 (mac/zz): In mfdn-transitions, since cmake strips "non-toolchain
@@ -49,8 +67,9 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   # spack load boost/4znawlj: works
   # spack load boost/r3flolp: works
   # spack load boost/t4shrus: works
-  #
-  # 12/01/25 (zz/mac): boost/t4shrus is no longer available. Need to install boost first with "spack install boost"
+  # 12/01/25 (zz/mac): boost/t4shrus is no longer available
+
+  # 12/01/25 (zz/mac): Need to install spack boost module first
   spack load boost
 
   # eigen
