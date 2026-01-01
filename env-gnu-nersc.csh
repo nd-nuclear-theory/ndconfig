@@ -16,6 +16,11 @@
 # file read permissions (e.g., installed in /global/common/software/m2032) where
 # possible, as these will not be available to all users.
 #
+# To run under csh/tcsh, must first set up shell support by manually sourcing
+# (INC0245403), before running "spack load ...":
+#
+#    source ${SPACK_ROOT}/share/spack/setup-env.csh
+#
 # 12/01/25 (zz/mac): Move away from using NERSC-provided predefined spack
 #   environments, which are no longer available, as NERSC moves away from
 #   spack-based e4s deployment (NERSC INC0245375).
@@ -30,6 +35,12 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
   #   spack load gsl boost/zoben4a
 
   module load spack
+
+  # 12/30/25 (mac): Must manually set up csh/tcsh shell support, to avoid
+  # "command not found" errors.
+  if ( $?tcsh ) then
+     source ${SPACK_ROOT}/share/spack/setup-env.csh
+  endif
   
   # 12/01/25 (zz/mac): Environment gcc no longer available, 
   ## spack env activate gcc
