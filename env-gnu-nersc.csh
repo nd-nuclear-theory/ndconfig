@@ -38,9 +38,11 @@ if ( "$NERSC_HOST" == "perlmutter" ) then
 
   # 12/30/25 (mac): Must manually set up csh/tcsh shell support, to avoid
   # "command not found" errors.
-  if ( $?tcsh ) then
-     source ${SPACK_ROOT}/share/spack/setup-env.csh
-  endif
+  # 03/06/25 (mac): Some bash users may also report needing to manually set
+  #  up bash shell support, so make manual load of shell support universal.
+  #
+  # Note: bashify will replace .csh extension with .sh
+  source ${SPACK_ROOT}/share/spack/setup-env.csh
   
   # 12/01/25 (zz/mac): Environment gcc no longer available, 
   ## spack env activate gcc
