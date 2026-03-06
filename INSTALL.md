@@ -479,7 +479,7 @@ See Sections 2ff below for instructions on building and installing a project
 If you would like to try running a program, try the following:
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <install_directory>/h2stat --verify doc/h2/h2v0/example/tbme-identity-tb-2-h2v0.dat
+  <install_directory>/h2stat --verify doc/h2/h2v0/example/identity/tbme-identity-tb-2-h2v0.dat
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the above, you will need to substitute the correct installation path for
