@@ -1,24 +1,21 @@
-export EIGEN3_DIR=/afs/crc.nd.edu/group/nuclthy/opt/eigen-3.3.7
-export SPECTRA_DIR=/afs/crc.nd.edu/group/nuclthy/opt/spectra
+# NDCRC  environment file for use with gnu compilers
+#
+# 05/20/26 (mac): Update to current modules and new group directory.
 
-# ndcrc gnu setup as of 180206
-#
-# gcc/8.3.0
-#
-# ompi/4.0.1/gcc/8.3.0
-#   module load     gcc/8.3.0
-#
-# boost/1.72/gcc/8.3.0
-#   module load     gcc/8.3.0
-#
-# gsl/2.3 -- TO UPDATE
-#   export          GSL_DIR /opt/crc/g/gsl/2.5/gcc
-#
-# python/3.6.0 -- TO UPDATE
-#   module load     gcc/6.2.0
+# compiler and libraries
+module load gcc/15.2.0 
+module load ompi/5.0.9/gcc/11.5.0
+module load boost/1.91/gcc/11.5.0
+module load gsl/gcc/2.8
 
-module load gcc/8.3.0
-module load ompi/4.0.1/gcc/8.3.0
-module load boost/1.72/gcc/8.3.0
-module load gsl/gcc/2.5
-module load python/3.7.3
+# Eigen -- 3.4.1 installed manually
+#   with structure $EIGEN_DIR/include/eigen3/Eigen/
+export EIGEN3_DIR=/groups/mcaprio/opt/eigen-3.4.1
+
+# Spectra -- to be reinstalled
+## export SPECTRA_DIR=/groups/mcaprio/opt/spectra
+
+# tools
+module load python/3.14.5
+module load cmake
+module load parallel

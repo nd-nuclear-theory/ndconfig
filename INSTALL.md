@@ -155,6 +155,7 @@ See Sections 2ff below for instructions on building and installing a project
   `develop` branch:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % git checkout -t origin/develop
+  % git submodule update
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   a. Subsequently updating source
@@ -164,8 +165,8 @@ See Sections 2ff below for instructions on building and installing a project
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Or, if someone has added a new submodule to the project since your last pull,
-  submodule first needs to be initialized, so the safest sequence of commands
-  is:
+  the submodule first needs to be initialized, so the safest sequence of
+  commands is:
   
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % git pull
